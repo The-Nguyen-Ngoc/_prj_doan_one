@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Shop TECH</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand mt-4" th:href="@{/}">
+                <img th:src="@{/images/logosmall.jpg}" alt="logo small"/>
+            </a>
+            <button class="navbar-toggler bg-dark text-white" type="button" data-toggle="collapse"
+                    data-target="#topNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="topNavbar">
+                <ul class="navbar-nav mt-4 ">
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/users}">Người
+                            Dùng</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/brands}">Nhãn Hiệu </a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/categories}">Danh Mục</a>
+                    </li>
+
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/products}">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/customers}">Khách Hàng</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/shipping}">Vận Chuyển</a>
+                    </li>
+
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/orders}">Đặt Hàng</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/report}">Báo Cáo Bán Hàng</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/articles}">Bài Viết</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/menus}">Menus</a>
+                    </li>
+                    <li class="nav-item px-2 h5">
+                        <a class="nav-link text-dark border-bottom border-bottom-4 border-warning"
+                           th:href="@{/settings}">Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="m-5 border-bottom border-danger">
+        <h2 class="pb-3" >Quản Lý Người Dùng / [[${pageTitle}]]</h2>
+    </div>
+    <div class="text-center">
+        <h4 >Vui lòng điền thông tin người dùng</h4>
+    </div>
+
+    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/users/save}" method="POST" style="max-width: 700px; margin: 0
+    auto"
+          enctype="multipart/form-data" th:object="${user}" onsubmit="return checkEmailUnique(this)">
+        <input type="hidden" th:field="*{id}">
+        <div class=" p-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">E-mail:</label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" th:field="*{email}" required minlength="8"
+                           maxlength="128" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Tên :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{firstName}" required minlength="2"
+                           maxlength="45" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Họ và tên đệm :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{lastName}" required minlength="2"
+                           maxlength="45" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Mật khẩu :</label>
+                <div class="col-sm-8">
+                    <input th:if="${user.id==null}" type="password" class="form-control" th:field="*{password}"
+                           required minlength="8" maxlength="20" />
+                    <input th:if="${user.id!=null}" type="password" class="form-control" th:field="*{password}"
+                           minlength="8" maxlength="20" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Vai trò:</label>
+                <div class="col-sm-8">
+                    <th:block th:each="role: ${listRoles}">
+                        <input class="m-2" type="checkbox" th:value="${role.id}"
+                               th:field="*{roles}"
+                               th:text="${role.name}"/> |
+
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                <div class="col-sm-8">
+                    <input type="checkbox" th:field="*{enabled}" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Photos:</label>
+                <div class="col-sm-8">
+                    <input type="hidden" th:field="*{photos}" />
+                    <input type="file" id="fileImage" name="image" accept="image/png,image/jpg, image/jpeg"
+                           class="mb-2" />
+                    <img style="width:80px; height: 100px;" id="thumbnail" alt="Photos preview"
+                         th:src="@{/images/avatar.jpg}"
+                         class="img-fluid border border-dark rounded-lg" />
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Lưu" class="btn btn-primary m-4 w-25">
+                <input type="button" value="Hủy" class="btn btn-secondary m-4 w-25" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+
+<!--    modal dialog-->
+    <div class="modal fade text-center" id="modalDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle">Thông Báo</h4>
+                    <button type="button" class="close" data-dismiss="modal" >&times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="modalBody"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quay
+                        Lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" >
+    $(document).ready(function (){
+        $("#buttonCancel").on("click", function (){
+            window.location = "[[@{/users}]]";
+        })
+
+        $('#fileImage').change(function (){
+            showImageThumbnail(this);
+        })
+    });
+
+    function showImageThumbnail(fileInput){
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e){
+            $('#thumbnail').attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function checkEmailUnique(form){
+        url = "[[@{/users/check_email}]]";
+        userEmail = $("#email").val();
+        userId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
+        params = {id: userId, email:userEmail, _csrf: csrfValue};
+
+
+        $.post(url,params,function (response){
+            if(response =="OK"){
+                form.submit();
+            }
+            if(response=="Duplicated") {
+                showModalDialog("Cảnh Báo", "Đã tồn tại người dùng có Email "+ userEmail)
+            }
+        }).fail(function (){
+            showModalDialog("Lỗi", "Không kết nối được với máy chủ");
+        });
+        return false;
+    }
+
+    function showModalDialog(title,message){
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#modalDialog").modal();
+
+    }
+</script>
+</body>
+<footer>
+    <div class="text-xl-center">
+        <p>TECH Shop Control Panel</p>
+    </div>
+</footer>
+</html>
