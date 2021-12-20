@@ -8,6 +8,7 @@ import com.example._prj_doan.exception.UserNotFoundExeption;
 import com.example._prj_doan.service.UserService;
 import com.example._prj_doan.utils.FileUploadUtil;
 import com.example._prj_doan.utils.UserCsvExporter;
+import com.example._prj_doan.utils.UserPdfExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -153,10 +154,10 @@ public class UserController {
     }
 
     @GetMapping("/users/export/pdf")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
+    public void exportToPdf(HttpServletResponse response) throws IOException {
         List<User> userList = userService.listAll();
-        UserExcelExport userCsvExporter = new UserExcelExport();
-        userCsvExporter.export(userList,response);
+        UserPdfExporter userPdfExporter = new UserPdfExporter();
+        userPdfExporter.export(userList,response);
     }
 
 }
