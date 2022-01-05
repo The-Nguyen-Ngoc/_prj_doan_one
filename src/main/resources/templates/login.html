@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
-
-    <title>Login - Shopme Admin</title>
-
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+<head th:replace="fragments::header('Đăng Nhập 🕹️')">
 </head>
 <body>
 <div class="container-fluid text-center">
 
     <div>
-        <img th:src="@{/images/anh1.jpg}" class="img-fluid w-25 h-25" />
+        <img th:src="@{/images/img.png}" class="img-fluid w-25 h-25" />
     </div>
 
     <form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto">
@@ -32,7 +26,7 @@
             <p>
                 <input type="password" name="password" class="form-control" placeholder="Password" required />
             </p>
-            <p>
+            <p class="h6 text-info">
                 <input type="checkbox" name="remember-me" />&nbsp;Remember
             </p>
             <p>
@@ -47,4 +41,6 @@
 
 </div>
 </body>
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Page Login')">
+</footer>
 </html>

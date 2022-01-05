@@ -1,23 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+
+<!--header-->
+<head th:fragment="header(title)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+
+    <title>[[${title}]]</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 <body>
 <!--    column-->
-    <th th:fragment="column_link(fieldName, columnLabel)">
-        <a class="text-danger"
+<th th:fragment="column_link(fieldName, columnLabel)">
+    <a class="text-danger"
        th:href="@{'/users/page/'+ ${pageNum}+ '?sortField=' +${fieldName}+ '&sortDir=' +${reverseSortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">
-            [[${columnLabel}]]
-        </a>
+        [[${columnLabel}]]
+    </a>
     <span th:if="${sortField == fieldName && sortDir == 'asc'}">⬆</span>
     <span th:if="${sortField == fieldName && sortDir == 'desc'}">⬇</span>
-    </th>
+</th>
 
 <!--    page link-->
-    <a th:fragment="page_link(pageNum, label)"
-        class="page-link bg-light text-dark"
-        th:href="@{'/users/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+<a th:fragment="page_link(pageNum, label)"
+   class="page-link bg-light text-dark"
+   th:href="@{'/users/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+</a>
+
+<!--menu-->
+<div th:fragment="menu" class="w-auto text-center">
+    <a class=" mt-4" th:href="@{/}">
+        <img class="" th:src="@{/images/img_3.png}"
+             alt="logo small"/>
     </a>
+    <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+        <input type="submit"/>
+    </form>
+    <nav class="navbar navbar-expand-lg">
+        <button class="navbar-toggler bg-dark text-white" type="button" data-toggle="collapse"
+                data-target="#topNavbar">
+            <span class="navbar-toggle-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topNavbar">
+            <ul class="navbar-nav mt-4">
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/users}">Account</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/brands}">Nhãn Hiệu </a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/categories}">Danh Mục</a>
+                </li>
+
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/products}">Sản Phẩm</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/customers}">Khách Hàng</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/shipping}">Vận Chuyển</a>
+                </li>
+
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/orders}">Đặt Hàng</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/report}">Báo Cáo</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/articles}">Bài Viết</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/menus}">Menus</a>
+                </li>
+                <li class="nav-item px-1 h6 ">
+                    <a class="nav-link text-dark border-bottom border-bottom-4 border-warning"
+                       th:href="@{/settings}">🔧</a>
+                </li>
+            </ul>
+            &nbsp;&nbsp;&nbsp;
+            <div class="border border-info rounded rounded-lg pt-2">
+                <div class="nav-item h5 text-center ">
+                    <p class="text-center">Hello <a href="#"
+                                                    sec:authentication="principal.name"></a><a
+                            class="text-sm-center text-danger h6" id="logoutLink"> (Logout)
+                    </a></p>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!--footer-->
+<footer th:fragment="footer(title)">
+    <p class="text-center h6 ">[[${title}]]</p>
+</footer>
 </body>
 </html>
