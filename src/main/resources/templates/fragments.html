@@ -8,12 +8,12 @@
 
     <title>[[${title}]]</title>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
 <!--    column-->
@@ -98,7 +98,7 @@
             &nbsp;&nbsp;&nbsp;
             <div class="border border-info rounded rounded-lg pt-2">
                 <div class="nav-item h5 text-center ">
-                    <p class="text-center">Hello <a href="#"
+                    <p class="text-center">Hello <a  th:href="@{/account}"
                                                     sec:authentication="principal.name"></a><a
                             class="text-sm-center text-danger h6" id="logoutLink"> (Logout)
                     </a></p>
