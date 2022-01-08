@@ -6,10 +6,8 @@
 <body>
 <div class="container-fluid">
     <div th:replace="fragments::menu"></div>
-
+    <div th:replace="fragments::titleHeaderPage(${titlePage}, null)"></div>
     <div class="m-4">
-        <h2 class="text-center">Quản Lý Người Dùng</h2>
-        <div></div>
         <button type="button" class="mt-4 btn btn-outline-primary">
             <a class="fas fa-user-plus fa icon-dark" th:href="@{/users/new}"></a>
         </button>
@@ -243,6 +241,6 @@
     })
 </script>
 </body>
-<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Quản lý Account')">
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Quản lý người dùng')">
 </footer>
 </html>

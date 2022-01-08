@@ -60,4 +60,12 @@ public class LoginUserDetails implements UserDetails {
     public String getName(){
         return this.user.getLastName();
     }
+
+    public void setFirstName(String firstName){
+        this.user.setFirstName(firstName);
+    }
+
+    public void setLastName(String lastName){
+        this.user.setLastName(lastName);
+    }
 }
