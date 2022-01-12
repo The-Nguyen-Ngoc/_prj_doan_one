@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head th:replace="fragments::header('Thêm account 👨‍💻')">
+<head th:replace="fragments::header('Edit account 👨‍💻')">
 </head>
 <body>
 <div class="container-fluid">
     <div th:replace="fragments::menu"></div>
-    <div
-            th:replace="fragments::titleHeaderPage('Quản Lý Người Dùng /', ' Thêm - Sửa Người dùng')"></div>
-
-    <div class="text-center">
-        <h4 >Vui lòng điền thông tin người dùng</h4>
+    <div th:replace="fragments::titleHeaderPage(${pageTitle}, null)"></div>
+    <div th:if="${message} != null" class="mt-4 alert alert-success text-center ">
+        [[${message}]]
     </div>
-
-    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/users/save}" method="POST" style="max-width: 700px; margin: 0
+    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/account/update}" method="POST"
+          style="max-width: 700px; margin: 0
     auto"
-          enctype="multipart/form-data" th:object="${user}" onsubmit="return checkEmailUnique(this)">
+          enctype="multipart/form-data" th:object="${user}">
         <input type="hidden" th:field="*{id}">
         <div class=" p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">E-mail:</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" th:field="*{email}" required minlength="8"
-                           maxlength="128" />
+                    <input type="email" class="form-control" th:field="*{email}" readonly="readonly" />
                 </div>
             </div>
 
@@ -45,29 +42,27 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Mật khẩu :</label>
                 <div class="col-sm-8">
-                    <input th:if="${user.id==null}" type="password" class="form-control" th:field="*{password}"
-                           required minlength="8" maxlength="20" />
-                    <input th:if="${user.id!=null}" type="password" class="form-control" th:field="*{password}"
-                           minlength="8" maxlength="20" />
+                    <input type="password" class="form-control" th:field="*{password}"
+                           placeholder="Để trống nếu không có thay đổi" minlength="8"
+                           maxlength="20"
+                            oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Nhập lại mật khẩu :</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="confirmPassword"
+                           minlength="8"
+                           maxlength="20"
+                            oninput="checkPasswordMatch(this)"/>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Vai trò:</label>
                 <div class="col-sm-8">
-                    <th:block th:each="role: ${listRoles}">
-                        <input class="m-2" type="checkbox" th:value="${role.id}"
-                               th:field="*{roles}"
-                               th:text="${role.name}"/> |
-
-                    </th:block>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
-                <div class="col-sm-8">
-                    <input type="checkbox" th:field="*{enabled}" />
+                    <span class="text-danger">[[${user.roles}]]</span>
                 </div>
             </div>
 
@@ -90,7 +85,7 @@
         </div>
     </form>
 
-<!--    modal dialog-->
+    <!--    modal dialog-->
     <div class="modal fade text-center" id="modalDialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -112,57 +107,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 <script type="text/javascript" >
-    $(document).ready(function (){
-        $("#buttonCancel").on("click", function (){
-            window.location = "[[@{/users}]]";
-        })
+    $(document).ready(buttonCancelAndFileImage("[[@{/}]]"));
 
-        $('#fileImage').change(function (){
-            showImageThumbnail(this);
-        })
-    });
-
-    function showImageThumbnail(fileInput){
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-
-        reader.onload = function (e){
-            $('#thumbnail').attr("src", e.target.result);
-        };
-
-        reader.readAsDataURL(file);
-    }
-
-    function checkEmailUnique(form){
-        url = "[[@{/users/check_email}]]";
-        userEmail = $("#email").val();
-        userId = $("#id").val();
-        csrfValue = $("input[name='_csrf']").val();
-        params = {id: userId, email:userEmail, _csrf: csrfValue};
-
-
-        $.post(url,params,function (response){
-            if(response =="OK"){
-                form.submit();
-            }
-            if(response=="Duplicated") {
-                showModalDialog("Cảnh Báo", "Đã tồn tại người dùng có Email "+ userEmail)
-            }
-        }).fail(function (){
-            showModalDialog("Lỗi", "Không kết nối được với máy chủ");
-        });
-        return false;
-    }
-
-    function showModalDialog(title,message){
-        $("#modalTitle").text(title);
-        $("#modalBody").text(message);
-        $("#modalDialog").modal();
-
+    const checkPasswordMatch = (confirmPassword)=>{
+        if(confirmPassword.value!= $('#password').val()){
+            confirmPassword.setCustomValidity("Mật khẩu giữa 2 lần không khớp!")
+        }else confirmPassword.setCustomValidity('');
     }
 </script>
+
 </body>
-<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Account')">
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Edit Account')">
 </footer>
 </html>

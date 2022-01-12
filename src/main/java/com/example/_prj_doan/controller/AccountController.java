@@ -30,7 +30,7 @@ public class AccountController {
 
         model.addAttribute("user", user);
         model.addAttribute("pageTitle", "Edit Account");
-        return "account_form";
+        return "users/account_form";
     }
 
     @PostMapping("/account/update")

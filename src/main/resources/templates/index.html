@@ -7,7 +7,13 @@
 <div class="container-fluid">
     <div th:replace="fragments::menu">
     </div>
-    <div th:replace="fragments::titleHeaderPage('WelCome To Tech Shop', null)"></div>
+
+    <a class="pl-3 h4" th:href="@{/account}" sec:authentication="principal.name"></a>
+    &nbsp;
+    <span class="text-info h5" sec:authentication="principal.authorities"></span>
+    <div th:replace="fragments::titleHeaderPage('WelCome To Tech Shop', null)">
+
+    </div>
 
 </div>
 </body>

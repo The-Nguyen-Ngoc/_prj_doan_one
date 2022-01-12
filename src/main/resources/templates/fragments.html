@@ -11,6 +11,7 @@
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
@@ -62,49 +63,57 @@
         </button>
         <div class="collapse navbar-collapse" id="topNavbar">
             <ul class="navbar-nav mt-4">
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6"  sec:authorize="hasAuthority('Admin')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/users}">Account</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/brands}">Nhãn Hiệu </a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/categories}">Danh Mục</a>
                 </li>
 
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 "
+                    sec:authorize="hasAnyAuthority('Admin','Editor','Shipper','Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/products}">Sản Phẩm</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/customers}">Khách Hàng</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/shipping}">Vận Chuyển</a>
                 </li>
-
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 "
+                    sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/orders}">Đặt Hàng</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 "
+                    sec:authorize="hasAnyAuthority('Admin','Assistant')">
+                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
+                       th:href="@{/orders}">Review</a>
+                </li>
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/report}">Báo Cáo</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/articles}">Bài Viết</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/menus}">Menus</a>
                 </li>
-                <li class="nav-item px-1 h6 ">
+                <li class="nav-item px-1 h6 " sec:authorize="hasAuthority('Admin')">
                     <a class="nav-link text-dark border-bottom border-bottom-4 border-warning"
                        th:href="@{/settings}">🔧</a>
                 </li>

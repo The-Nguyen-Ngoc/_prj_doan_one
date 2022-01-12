@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/users")
     public String listAll(Model model) {
        listByPage(1, model, "firstName", "asc", null);
-        return "users";
+        return "users/users";
 
     }
 
@@ -68,7 +68,7 @@ public class UserController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("titlePage", "Quản Lý Người Dùng");
 
-        return "users";
+        return "users/users";
     }
 
     @GetMapping("/users/new")
@@ -78,7 +78,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("listRoles", listRoles);
         model.addAttribute("pageTitle", "Thêm Người Dùng");
-        return "users_form";
+        return "users/users_form";
     }
 
     @PostMapping("/users/save")
@@ -115,7 +115,7 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("listRoles", listRoles);
             model.addAttribute("pageTitle", "Cập Nhật Người Dùng");
-            return "users_form";
+            return "users/users_form";
         } catch (UserNotFoundExeption e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/users";
