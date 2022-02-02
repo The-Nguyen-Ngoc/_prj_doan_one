@@ -15,10 +15,10 @@ import java.util.List;
 public class AbstractExport {
 
     public void setHeader( HttpServletResponse httpServletResponse, String contentType,
-                           String extension) throws IOException {
+                           String extension, String header) throws IOException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String timestamp = dateFormat.format(new Date());
-        String fileName = "users_" + timestamp+extension;
+        String fileName = header + timestamp+extension;
 
         httpServletResponse.setContentType(contentType);
         String headerKey = "Content-Disposition";

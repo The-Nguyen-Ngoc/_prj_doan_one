@@ -65,9 +65,9 @@
     </a>
 </td>
 <!--    column-->
-<th th:fragment="column_link(fieldName, columnLabel)">
+<th th:fragment="column_link(url,fieldName, columnLabel)">
     <a class="text-danger"
-       th:href="@{'/users/page/'+ ${pageNum}+ '?sortField=' +${fieldName}+ '&sortDir=' +${reverseSortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">
+       th:href="@{${url}+ ${pageNum}+ '?sortField=' +${fieldName}+ '&sortDir=' +${reverseSortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">
         [[${columnLabel}]]
     </a>
     <span th:if="${sortField == fieldName && sortDir == 'asc'}">⬆</span>

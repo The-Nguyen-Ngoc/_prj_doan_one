@@ -59,4 +59,5 @@ public class AccountController {
         redirectAttributes.addFlashAttribute("message", "Thay đổi thông tin Account thành công!");
         return "redirect:/account";
     }
+
 }

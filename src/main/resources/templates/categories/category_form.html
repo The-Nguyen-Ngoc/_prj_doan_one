@@ -10,21 +10,22 @@
             th:replace="fragments::titleHeaderPage('Quản Lý Danh Mục /', ' Thêm - Sửa Danh Mục')"></div>
 
     <div class="text-center">
-        <h4 >Vui lòng điền thông tin danh mục sản phẩm</h4>
+        <h4>Vui lòng điền thông tin danh mục sản phẩm</h4>
     </div>
 
-    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/category/save}" method="POST"
+    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/categories/save}" method="POST"
           style="max-width: 700px; margin: 0
     auto"
+          onsubmit="return checkUnique(this)"
           enctype="multipart/form-data" th:object="${category}">
         <input type="hidden" th:field="*{id}">
         <div class=" p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Tên Danh Mục</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" th:field="*{name}" required
+                    <input type="text" class="form-control" th:field="*{name}" required
                            minlength="3"
-                           maxlength="60" />
+                           maxlength="60"/>
                 </div>
             </div>
 
@@ -33,7 +34,7 @@
                 <div class="col-sm-8">
                     <input type="text" class="form-control" th:field="*{alias}" required
                            minlength="3"
-                           maxlength="60" />
+                           maxlength="60"/>
                 </div>
             </div>
 
@@ -43,7 +44,7 @@
                     <select>
                         <option value="0">[Danh mục sản phẩm lớn]</option>
                         <th:block th:each="category: ${categoriesInForm}">
-                        <option th:value="${category.id}">[[${category.name}]]</option>
+                            <option th:value="${category.id}">[[${category.name}]]</option>
                         </th:block>
                     </select>
                 </div>
@@ -53,53 +54,57 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Trạng Thái:</label>
                 <div class="col-sm-8">
-                    <input type="checkbox" th:field="*{enabled}" />
+                    <input type="checkbox" th:field="*{enabled}"/>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Hình Ảnh:</label>
                 <div class="col-sm-8">
-                    <input type="hidden" th:field="*{image}" />
-                    <input type="file" id="fileImage" name="image" accept="image/png,image/jpg, image/jpeg"
-                           class="mb-2" />
+                    <input type="hidden" th:field="*{image}"/>
+                    <input type="file" id="fileImage" name="fileImage"
+                           accept="image/png,image/jpg, image/jpeg"
+                           class="mb-2" required/>
                     <img style="width:120px; height: 100px;" id="thumbnail" alt="Image preview"
                          th:src="@{/images/category.png}"
-                         class="img-fluid " />
+                         class="img-fluid "/>
                 </div>
             </div>
 
             <div class="text-center">
                 <input type="submit" value="Lưu" class="btn btn-primary m-4 w-25">
-                <input type="button" value="Hủy" class="btn btn-secondary m-4 w-25" id="buttonCancel">
+                <input type="button" value="Hủy" class="btn btn-secondary m-4 w-25"
+                       id="buttonCancel">
             </div>
         </div>
     </form>
 
-<!--    modal dialog-->
-    <div class="modal fade text-center" id="modalDialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalTitle">Thông Báo</h4>
-                    <button type="button" class="close" data-dismiss="modal" >&times;
-                    </button>
-                </div>
+    <!--    modal dialog-->
+    <!--    <div class="modal fade text-center" id="modalDialog">-->
+    <!--        <div class="modal-dialog">-->
+    <!--            <div class="modal-content">-->
+    <!--                <div class="modal-header">-->
+    <!--                    <h4 class="modal-title" id="modalTitle">Thông Báo</h4>-->
+    <!--                    <button type="button" class="close" data-dismiss="modal" >&times;-->
+    <!--                    </button>-->
+    <!--                </div>-->
 
-                <div class="modal-body">
-                    <span id="modalBody"></span>
-                </div>
+    <!--                <div class="modal-body">-->
+    <!--                    <span id="modalBody"></span>-->
+    <!--                </div>-->
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quay
-                        Lại</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--                <div class="modal-footer">-->
+    <!--                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quay-->
+    <!--                        Lại</button>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div th:replace="modal_fragments:: modal_dialog"></div>
+
 </div>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
-<script type="text/javascript" >
+<script type="text/javascript">
     $(document).ready(buttonCancelAndFileImage("[[@{/categories}]]"));
 
     // function showModalDialog(title,message){
@@ -108,6 +113,36 @@
     //     $("#modalDialog").modal();
     //
     // }
+
+    function checkUnique(form) {
+        catId = $("#id").val();
+        catName = $("#name").val();
+        catAlias = $("#alias").val();
+
+        csrfValue = $("input[name='_csrf']").val();
+        url = "[[@{/categories/checkUnique}]]";
+        params = {
+            id: catId,
+            name: catName,
+            alias: catAlias,
+            _csrf: csrfValue
+        };
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            }
+            if (response == "Tên danh mục đã tồn tại") {
+                showModalDialog("Cảnh Báo", "Đã tồn tại danh mục " + catName)
+            }
+            if (response == "Tên Alias đã tồn tại") {
+                showModalDialog("Cảnh Báo", "Đã tồn tại tên Alias " + catAlias)
+            }
+        }).fail(function () {
+            showModalDialog("Cảnh Báo", "Lỗi kết nối tới server")
+        });
+        return false;
+
+    }
 </script>
 </body>
 <footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Category')">

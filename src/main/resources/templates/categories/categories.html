@@ -14,13 +14,8 @@
         <button type="button" class="mt-4 btn btn-outline-success">
             <a class="text-dark" th:href="@{/categories/export/csv}">Xuất File CSV</a>
         </button>
-        <button type="button" class="mt-4 btn btn-outline-success">
-            <a class="text-dark" th:href="@{/categories/export/pdf}">Xuất File PDF</a>
-        </button>
         <div class="m-4 justify-content-end">
-            <form th:action="@{/categories/page/1}" class="form-inline">
-                <input type="hidden" name="sortField" th:value="${sortField}"/>
-                <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+            <form th:action="@{/categories}" class="form-inline">
                 🔎&nbsp;&nbsp;&nbsp;
                 <input type="search" name="keyword" th:value="${keyword}" class="form-control"
                        required/>
@@ -59,9 +54,7 @@
                     </svg>
                     </span>
                     <img class="shadow-sm rounded" style="width: 80px; height: 40px"
-                         th:if="${category.image != null}"
-                         th:src="@{http://localhost:9090/admin/category-image/{id}/{photo}(id=${category.id}, photo=${category.image})}"/>
-
+                         th:if="${category.image != null}" th:src="@{${category.imagePath}}" />
                 </td>
                 <td>[[${category.name}]]</td>
                 <td>[[${category.alias}]]</td>
@@ -97,9 +90,7 @@
                     </svg>
                     </span>
                     <img class="shadow-sm rounded" style="width: 80px; height: 40px"
-                         th:if="${category.image != null}"
-                         th:src="@{http://localhost:9090/admin/category-image/{id}/{photo}(id=${category.id}, photo=${category.image})}"/>
-
+                         th:if="${category.image != null}" th:src="@{${category.imagePath}}" />
                 </td>
                 <td>[[${category.name}]]</td>
                 <td th:replace="fragments::status(${category},'categories')"></td>

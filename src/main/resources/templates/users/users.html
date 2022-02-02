@@ -37,13 +37,13 @@
         <table class="table table-bordered table-striped table-hover table-responsive-xl ">
             <thead class="bg-warning">
             <tr>
-               <th th:replace="fragments :: column_link('id', 'ID')"/>
+               <th th:replace="fragments :: column_link('users/page/','id', 'ID')"/>
                 <th>Ảnh</th>
-                <th th:replace="fragments :: column_link('email', 'Email')"/>
-                <th th:replace="fragments :: column_link('firstName', 'Tên')"/>
-                <th th:replace="fragments :: column_link('lastName', 'Họ Tên Đệm')"/>
+                <th th:replace="fragments :: column_link('users/page/','email', 'Email')"/>
+                <th th:replace="fragments :: column_link('users/page/','firstName', 'Tên')"/>
+                <th th:replace="fragments :: column_link('users/page/','lastName', 'Họ Tên Đệm')"/>
                 <th>Vai Trò</th>
-                <th th:replace="fragments :: column_link('enabled', 'Trạng Thái')"/>
+                <th th:replace="fragments :: column_link('users/page/','enabled', 'Trạng Thái')"/>
                 <th>Hành Động</th>
             </tr>
             </thead>
@@ -61,9 +61,7 @@
                     </svg>
                     </span>
                     <img class="shadow-sm rounded" style="width: 80px; height: 40px"
-                         th:if="${user.photos != null}"
-                         th:src="@{http://localhost:9090/admin/user-photos/{id}/{photo}(id=${user.id}, photo=${user.photos})}"/>
-
+                         th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" />
                 </td>
                 <td>[[${user.email}]]</td>
                 <td>[[${user.firstName}]]</td>
@@ -125,7 +123,7 @@
             <thead class="bg-warning">
             <tr>
                 <th>Ảnh</th>
-                <th th:replace="fragments :: column_link('fistName', 'Tên ')"/>
+                <th th:replace="fragments :: column_link('users/page/','fistName', 'Tên ')"/>
                 <th>Hành Động</th>
             </tr>
             </thead>
