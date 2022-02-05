@@ -50,6 +50,8 @@ public class Category {
 
     @Transient
     public String getImagePath(){
-        return "category-images/"+ this.id + "/"+ this.image;
+        if(this.id == null) return "/images/category.png";
+
+        return "/category-images/"+ this.id + "/"+ this.image;
     }
 }
