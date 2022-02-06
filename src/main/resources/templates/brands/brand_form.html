@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head th:replace="fragments::header('Thêm Danh Mục 👨‍💻')">
+<head th:replace="fragments::header('Thêm Nhãn Hiệu 👨‍💻')">
 </head>
 <body>
 <div class="container-fluid">
     <div th:replace="fragments::menu"></div>
     <div
-            th:replace="fragments::titleHeaderPage('Quản Lý Danh Mục /', ' Thêm - Sửa Danh Mục')"></div>
+            th:replace="fragments::titleHeaderPage('Quản Lý Nhãn Hiệu /', ' Thêm - Sửa Nhãn Hiệu')"></div>
 
     <div class="text-center">
-        <h4>Vui lòng điền thông tin danh mục sản phẩm</h4>
+        <h4>Vui lòng điền thông tin nhãn hiệu của sản phẩm</h4>
     </div>
 
-    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/categories/save}" method="POST"
+    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/brands/save}" method="POST"
           style="max-width: 700px; margin: 0
     auto"
-          onsubmit="return checkUnique(this)"
-          enctype="multipart/form-data" th:object="${category}">
+
+          enctype="multipart/form-data" th:object="${brand}">
         <input type="hidden" th:field="*{id}">
         <div class=" p-3">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Tên Danh Mục</label>
+                <label class="col-sm-4 col-form-label">Tên Nhãn Hiệu</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" th:field="*{name}" required
                            minlength="3"
@@ -30,43 +30,33 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Alias :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" th:field="*{alias}" required
-                           minlength="3"
-                           maxlength="60"/>
-                </div>
-            </div>
-
-            <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Nằm trong danh mục :</label>
                 <div class="col-sm-8">
-                    <select>
-                        <option value="0">[Danh mục sản phẩm lớn]</option>
-                        <th:block th:each="category: ${categoriesInForm}">
-                            <option th:value="${category.id}">[[${category.name}]]</option>
+                    <select th:field="${brand.categories}" multiple required>
+                        <th:block th:each="category: ${categories}">
+                            <option th:value="${category.id}">[[${category
+                                .name}]]</option>
                         </th:block>
                     </select>
                 </div>
             </div>
 
-
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                <label class="col-sm-4 col-form-label">Danh Mục đã chọn: </label>
                 <div class="col-sm-8">
-                    <input type="checkbox" th:field="*{enabled}"/>
+                    <div id="chosenCategories"></div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Hình Ảnh:</label>
+                <label class="col-sm-4 col-form-label">Logo:</label>
                 <div class="col-sm-8">
-                    <input type="hidden" th:field="*{image}"/>
+                    <input type="hidden" th:field="*{logo}"/>
                     <input type="file" id="fileImage" name="fileImage"
                            accept="image/png,image/jpg, image/jpeg"
                            class="mb-2" required/>
                     <img style="width:120px; height: 100px;" id="thumbnail" alt="Image preview"
-                         th:src="@{${category.imagePath}}"
+                         th:src="@{${brand.logoPath}}"
                          class="img-fluid "/>
                 </div>
             </div>
@@ -105,7 +95,19 @@
 </div>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 <script type="text/javascript">
-    $(document).ready(buttonCancelAndFileImage("[[@{/categories}]]"));
+    $(document).ready(buttonCancelAndFileImage("[[@{/brands}]]"));
+    $(document).ready(function (){
+        dropdownCategories = $("#categories");
+        divChosenCategories = $("#chosenCategories");
+
+        dropdownCategories.change(function () {
+            divChosenCategories.empty();
+           dropdownCategories.children("option:selected").each(function () {
+               divChosenCategories.append("♦️<span class='badge badge-primary'>" + $(this).text()
+                   + "</span>");
+           });
+        });
+    });
 
     // function showModalDialog(title,message){
     //     $("#modalTitle").text(title);
@@ -145,6 +147,6 @@
     }
 </script>
 </body>
-<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Category')">
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Brands')">
 </footer>
 </html>

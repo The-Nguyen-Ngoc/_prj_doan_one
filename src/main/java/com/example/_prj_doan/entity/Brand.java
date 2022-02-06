@@ -27,5 +27,10 @@ public class Brand {
     )
     private List<Category> categories = new ArrayList<>();
 
+    @Transient
+    public String getLogoPath() {
+        if(this.id == null) return "/images/img_1.png";
 
+        return "/brand-logos/" + this.id +"/"+ this.logo;
+    }
 }
