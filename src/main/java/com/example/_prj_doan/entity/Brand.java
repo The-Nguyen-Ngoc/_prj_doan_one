@@ -1,8 +1,6 @@
 package com.example._prj_doan.entity;
 
-import lombok.Data;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -10,6 +8,8 @@ import java.util.*;
 @Entity
 @Table(name="brands")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,8 @@ public class Brand {
     )
     private List<Category> categories = new ArrayList<>();
 
+    @Transient
+    private String listCategories;
     @Transient
     public String getLogoPath() {
         if(this.id == null) return "/images/img_1.png";

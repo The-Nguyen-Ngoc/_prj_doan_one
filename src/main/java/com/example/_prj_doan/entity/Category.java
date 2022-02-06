@@ -1,7 +1,9 @@
 package com.example._prj_doan.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,7 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Category {
     @Id
@@ -34,6 +37,12 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
+
+    public Category(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Category getParent() {
         return parent;
     }
@@ -48,10 +57,18 @@ public class Category {
         this.children = children;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
     @Transient
     public String getImagePath(){
         if(this.id == null) return "/images/category.png";
 
         return "/category-images/"+ this.id + "/"+ this.image;
+    }
+    @Transient
+    public Integer getId() {
+        return this.id;
     }
 }

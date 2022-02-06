@@ -3,7 +3,6 @@ package com.example._prj_doan.service;
 import com.example._prj_doan.entity.Category;
 import com.example._prj_doan.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +29,12 @@ public class CategoryService {
         for (Category category : categoriesInDB) {
             if (category.getParent() == null) {
 
-                categoriesInform.add(new Category(category.getName()));
+                categoriesInform.add(new Category(category.getId(),category.getName()));
 
             } else {
                 String name = "";
                 name = " [ "+ category.getParent().getName() + " ] "+ category.getName() ;
-                categoriesInform.add(new Category(name));
+                categoriesInform.add(new Category(category.getId(),name));
             }
         }
         return categoriesInform;

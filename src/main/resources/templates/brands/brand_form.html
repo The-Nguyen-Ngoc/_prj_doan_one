@@ -14,11 +14,9 @@
     </div>
 
     <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/brands/save}" method="POST"
-          style="max-width: 700px; margin: 0
-    auto"
-
+          style="max-width: 700px; margin: 0 auto" onsubmit="return checkUnique(this)"
           enctype="multipart/form-data" th:object="${brand}">
-        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{id}"/>
         <div class=" p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Tên Nhãn Hiệu</label>
@@ -32,10 +30,10 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Nằm trong danh mục :</label>
                 <div class="col-sm-8">
-                    <select th:field="${brand.categories}" multiple required>
-                        <th:block th:each="category: ${categories}">
-                            <option th:value="${category.id}">[[${category
-                                .name}]]</option>
+                    <select th:field="*{categories}" multiple required>
+                        <th:block th:each="category,iterStat : ${listCategories}">
+                            <option th:value="${category.id}" th:text="${category.name}">
+                            </option>
                         </th:block>
                     </select>
                 </div>
@@ -68,76 +66,42 @@
             </div>
         </div>
     </form>
-
-    <!--    modal dialog-->
-    <!--    <div class="modal fade text-center" id="modalDialog">-->
-    <!--        <div class="modal-dialog">-->
-    <!--            <div class="modal-content">-->
-    <!--                <div class="modal-header">-->
-    <!--                    <h4 class="modal-title" id="modalTitle">Thông Báo</h4>-->
-    <!--                    <button type="button" class="close" data-dismiss="modal" >&times;-->
-    <!--                    </button>-->
-    <!--                </div>-->
-
-    <!--                <div class="modal-body">-->
-    <!--                    <span id="modalBody"></span>-->
-    <!--                </div>-->
-
-    <!--                <div class="modal-footer">-->
-    <!--                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Quay-->
-    <!--                        Lại</button>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div th:replace="modal_fragments:: modal_dialog"></div>
 
 </div>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 <script type="text/javascript">
     $(document).ready(buttonCancelAndFileImage("[[@{/brands}]]"));
-    $(document).ready(function (){
+    $(document).ready(function () {
         dropdownCategories = $("#categories");
         divChosenCategories = $("#chosenCategories");
 
         dropdownCategories.change(function () {
             divChosenCategories.empty();
-           dropdownCategories.children("option:selected").each(function () {
-               divChosenCategories.append("♦️<span class='badge badge-primary'>" + $(this).text()
-                   + "</span>");
-           });
+            dropdownCategories.children("option:selected").each(function () {
+                divChosenCategories.append("♦️<span class='badge badge-primary'>" + $(this).text()
+                    + "</span>");
+            });
         });
     });
-
-    // function showModalDialog(title,message){
-    //     $("#modalTitle").text(title);
-    //     $("#modalBody").text(message);
-    //     $("#modalDialog").modal();
-    //
-    // }
 
     function checkUnique(form) {
         catId = $("#id").val();
         catName = $("#name").val();
-        catAlias = $("#alias").val();
 
         csrfValue = $("input[name='_csrf']").val();
-        url = "[[@{/categories/checkUnique}]]";
+        url = "[[@{/brands/checkUnique}]]";
         params = {
             id: catId,
             name: catName,
-            alias: catAlias,
             _csrf: csrfValue
         };
         $.post(url, params, function (response) {
             if (response == "OK") {
                 form.submit();
             }
-            if (response == "Tên danh mục đã tồn tại") {
-                showModalDialog("Cảnh Báo", "Đã tồn tại danh mục " + catName)
-            }
-            if (response == "Tên Alias đã tồn tại") {
-                showModalDialog("Cảnh Báo", "Đã tồn tại tên Alias " + catAlias)
+            if (response == "Tên nhà sản xuất đã tồn tại") {
+                showModalDialog("Cảnh Báo", "Đã tồn nhãn hiệu " + catName)
             }
         }).fail(function () {
             showModalDialog("Cảnh Báo", "Lỗi kết nối tới server")
