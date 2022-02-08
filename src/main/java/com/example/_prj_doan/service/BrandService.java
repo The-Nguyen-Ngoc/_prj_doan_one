@@ -49,4 +49,8 @@ public class BrandService {
             else return "OK";
         }
     }
+
+    public List<Brand> filterBrands(String keyword) {
+        return brandRepo.filterByName(keyword);
+    }
 }

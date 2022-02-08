@@ -14,4 +14,7 @@ public interface BrandRepo extends PagingAndSortingRepository<Brand, Integer> {
 
     @Query("select b from Brand b where b.name like ?1")
     Brand findByName(String name);
+
+    @Query("select b from Brand b where b.name like %?1%")
+    List<Brand> filterByName(String keyword);
 }

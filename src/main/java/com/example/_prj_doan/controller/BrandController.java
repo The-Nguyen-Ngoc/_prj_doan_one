@@ -21,7 +21,6 @@ import org.webjars.NotFoundException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,11 +31,12 @@ public class BrandController {
     CategoryService categoryService;
 
     @GetMapping("/brands")
-    public String getAllBrands(Model model){
+    public String getAllBrands( Model model){
         List<Brand> listBrands = brandService.listAll();
         model.addAttribute("listBrands", listBrands);
         return "brands/brands";
     }
+
 
     @GetMapping("/brands/new")
     public String addBrand(Model model){
