@@ -10,7 +10,11 @@ import java.util.List;
 @Repository
 public interface BrandRepo extends PagingAndSortingRepository<Brand, Integer> {
 
+    @Query("SELECT b FROM Brand b ORDER BY b.name ASC")
     List<Brand> findAll();
+
+    @Query("SELECT new Brand(b.id, b.name) FROM Brand b ORDER BY b.name ASC")
+    List<Brand> findAllNameAndId();
 
     @Query("select b from Brand b where b.name like ?1")
     Brand findByName(String name);

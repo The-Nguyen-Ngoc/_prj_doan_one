@@ -19,6 +19,10 @@ public class BrandService {
         return  brands;
     }
 
+    public List<Brand> listAllNameAndId(){
+        List<Brand> brands = brandRepo.findAllNameAndId();
+        return  brands;
+    }
     @Modifying
     @Transactional
     public Brand save(Brand brand) {
@@ -52,5 +56,9 @@ public class BrandService {
 
     public List<Brand> filterBrands(String keyword) {
         return brandRepo.filterByName(keyword);
+    }
+
+    public Brand getBrandById(Integer id) {
+        return brandRepo.findById(id).get();
     }
 }

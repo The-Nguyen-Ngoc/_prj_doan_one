@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <head th:replace="fragments::header('Thêm Sản Phẩm 👨‍💻')"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/richtext/richtextmin.css}"/>
+    <script type="text/javascript" th:src="@{/richtext/jqueryrichtextmin.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="fragments::menu"></div>
+    <div th:replace="fragments::titleHeaderPage('Quản Lý Sản Phẩm /', ' Thêm - Sửa Sản Phẩm')"></div>
+    <div class="text-center">
+        <h4>Vui lòng điền thông tin của sản phẩm</h4><br>
+    </div>
+
+    <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/products/save}" method="POST"
+          style="max-width: 700px; margin: 0 auto" onsubmit="return checkUnique(this)"
+          enctype="multipart/form-data" th:object="${product}">
+        <input type="hidden" name="id" th:value="${product.id}"/>
+        <!-- Nav tabs -->
+        <div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Tổng Quan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Mô Tả</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Hình Ảnh</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Chi Tiết</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="overview" role="tabpanel">
+                    <div th:replace="products/product_overview::content"></div>
+                </div>
+                <div class="tab-pane" id="description" role="tabpanel">.ghdfg.</div>
+                <div class="tab-pane" id="images" role="tabpanel">..jkhgfh.</div>
+                <div class="tab-pane" id="details" role="tabpanel">..tỷyt.</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Lưu" class="btn btn-primary m-4 w-25">
+            <input type="button" value="Hủy" class="btn btn-secondary m-4 w-25" id="buttonCancel">
+        </div>
+    </form>
+    <div th:replace="modal_fragments:: modal_dialog"></div>
+
+</div>
+<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
+<script type="text/javascript">
+    moduleURL = "[[@{/products/}]]";
+    brandModuleURL = "[[@{/brands/}]]";
+    dropdownBrands = $("#brand")
+    dropdownCategories = $("#category")
+    $(document).ready(function () {
+        dropdownBrands.change(function () {
+            dropdownCategories.empty()
+            getCategories();
+        });
+        getCategories();
+
+    });
+
+    function getCategories() {
+        var brandId = dropdownBrands.val();
+        $.get(brandModuleURL + brandId + "/categories", function (data) {
+            data.forEach(function (item) {
+                $("<option>").val(item.id).text(item.name).appendTo(dropdownCategories);
+            });
+        });
+    }
+</script>
+</body>
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Product')">
+</footer>
+</html>

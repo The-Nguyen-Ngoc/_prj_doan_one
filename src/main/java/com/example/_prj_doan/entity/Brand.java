@@ -27,6 +27,11 @@ public class Brand {
     )
     private List<Category> categories = new ArrayList<>();
 
+    public Brand(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Transient
     private String listCategories;
     @Transient
