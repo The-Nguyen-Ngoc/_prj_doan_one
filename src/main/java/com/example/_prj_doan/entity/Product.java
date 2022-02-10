@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -41,7 +43,11 @@ public class Product {
     private float width;
     private float height;
     private float weight;
+    @Column(name = "main_image", nullable = false)
+    private String mainImage;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
@@ -49,4 +55,24 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="brand_id")
     private Brand brand;
+
+    public boolean getEnabled() {
+        return this.enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{}";
+    }
+
+    public void addExtraImages(String imageName) {
+        this.images.add(new ProductImage(imageName, this));
+    }
+
+    @Transient
+    public String getMainImagePath(){
+        if(id == null|| mainImage == null) return "/images/category.png";
+
+        return "/product-images/"+this.id+"/"+this.mainImage;
+    }
 }

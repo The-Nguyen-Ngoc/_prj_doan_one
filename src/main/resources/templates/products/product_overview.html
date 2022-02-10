@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="content" th:remove="tag">
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Tên Sản Phẩm:</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" th:field="*{name}" required minlength="3" maxlength="256"/>
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Mã Sản Phẩm:</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" th:field="*{alias}"
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Nhà Sản Xuất:</label>
         <div class="col-sm-10">
            <select th:field="*{brand}" class="form-control" required>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Danh Mục Sản Phẩm:</label>
         <div class="col-sm-10">
             <select th:field="*{category}" class="form-control" required>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group m-2  row">
         <label class="col-sm-4 col-form-label">Trạng Thái:</label>
         <div class="col-sm-8">
             <input type="checkbox" th:field="*{enabled}" />
@@ -51,19 +51,19 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giá Nhập:</label>
         <div class="col-sm-10">
             <input type="number" class="form-control" th:field="*{cost}"/>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giá Bán:</label>
         <div class="col-sm-10">
             <input type="number" class="form-control" th:field="*{price}"/>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giảm giá:</label>
         <div class="col-sm-10">
             <input type="number" class="form-control" th:field="*{discountPercent}"/>

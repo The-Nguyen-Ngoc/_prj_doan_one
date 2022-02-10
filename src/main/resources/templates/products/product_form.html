@@ -15,8 +15,9 @@
     </div>
 
     <form class="mt-1 shadow p-3 mb-5 bg-body rounded" th:action="@{/products/save}" method="POST"
-          style="max-width: 700px; margin: 0 auto" onsubmit="return checkUnique(this)"
-          enctype="multipart/form-data" th:object="${product}">
+          style="max-width: 700px; margin: 0 auto"
+          onsubmit="return check_Unique(this)" enctype="multipart/form-data"
+          th:object="${product}">
         <input type="hidden" name="id" th:value="${product.id}"/>
         <!-- Nav tabs -->
         <div>
@@ -33,6 +34,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#details" role="tab">Chi Tiết</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Vận Chuyển</a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -40,9 +44,16 @@
                 <div class="tab-pane active" id="overview" role="tabpanel">
                     <div th:replace="products/product_overview::content"></div>
                 </div>
-                <div class="tab-pane" id="description" role="tabpanel">.ghdfg.</div>
-                <div class="tab-pane" id="images" role="tabpanel">..jkhgfh.</div>
+                <div class="tab-pane" id="description" role="tabpanel">
+                    <div th:replace="products/product_description::content"></div>
+                </div>
+                <div class="tab-pane" id="images" role="tabpanel">
+                    <div th:replace="products/product_images::content"></div>
+                </div>
                 <div class="tab-pane" id="details" role="tabpanel">..tỷyt.</div>
+                <div class="tab-pane" id="shipping" role="tabpanel">
+                    <div th:replace="products/product_shipping::content"></div>
+                </div>
             </div>
         </div>
         <div class="text-center">
@@ -59,7 +70,10 @@
     brandModuleURL = "[[@{/brands/}]]";
     dropdownBrands = $("#brand")
     dropdownCategories = $("#category")
+    $(document).ready(buttonCancelAndFileImage("[[@{/products}]]"));
     $(document).ready(function () {
+        $("#shortDescription").richText();
+        $("#fullDescription").richText();
         dropdownBrands.change(function () {
             dropdownCategories.empty()
             getCategories();
@@ -75,6 +89,31 @@
                 $("<option>").val(item.id).text(item.name).appendTo(dropdownCategories);
             });
         });
+    }
+
+    function check_Unique(form) {
+        catId = $("#id").val();
+        catName = $("#name").val();
+
+        csrfValue = $("input[name='_csrf']").val();
+        url = "[[@{/products/checkUnique}]]";
+        params = {
+            id: catId,
+            name: catName,
+            _csrf: csrfValue
+        };
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            }
+            if (response == "Tên sản phẩm đã tồn tại") {
+                showModalDialog("Cảnh Báo", "Đã tồn tại sản phẩm " + catName)
+            }
+        }).fail(function () {
+            showModalDialog("Cảnh Báo", "Lỗi kết nối tới server")
+        });
+        return false;
+
     }
 </script>
 </body>

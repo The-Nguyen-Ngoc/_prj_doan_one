@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="m-4">
+        <h5 class="text-info">Điền đầy đủ thông tin về chiều dài, chiều rộng, chiều cao để tính toán phí vận chuyển cho sản phẩm: </h5>
+        <div class="col-sm-10">
+            <label>Chiều dài:</label>
+            <input type="number" class="form-control" th:field="*{length}"/>
+        </div>
+        <div class="col-sm-10">
+            <label>Chiều rộng:</label>
+            <input type="number" class="form-control" th:field="*{width}"/>
+        </div>
+        <div class="col-sm-10">
+            <label>Chiều cao:</label>
+            <input type="number" class="form-control" th:field="*{height}"/>
+        </div>
+        <div class="col-sm-10">
+            <label>Cân nặng (kg):</label>
+            <input type="number" class="form-control" th:field="*{weight}"/>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
