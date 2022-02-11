@@ -66,10 +66,12 @@
 </div>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 <script type="text/javascript">
+    var extraImagesCount = 0;
     moduleURL = "[[@{/products/}]]";
     brandModuleURL = "[[@{/brands/}]]";
     dropdownBrands = $("#brand")
     dropdownCategories = $("#category")
+    defaultImageThumbnail = "[[@{/images/preview.png}]]"
     $(document).ready(buttonCancelAndFileImage("[[@{/products}]]"));
     $(document).ready(function () {
         $("#shortDescription").richText();
@@ -80,7 +82,20 @@
         });
         getCategories();
 
+        $("input[name='extraImage']").each(function (index) {
+            extraImagesCount++;
+            $(this).change(function () {
+                showExtraImageThumbnail(this,index)
+            });
+        });
+
     });
+
+    function removeExtraImage(index) {
+        $("#divExtraImage" + index).remove();
+        extraImagesCount--;
+
+    }
 
     function getCategories() {
         var brandId = dropdownBrands.val();
