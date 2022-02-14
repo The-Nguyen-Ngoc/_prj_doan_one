@@ -47,9 +47,12 @@ public class ProductController {
     }
 
     @PostMapping("/products/save")
-    public String saveProduct(Product product, @RequestParam("fileImage") MultipartFile multipartFile, RedirectAttributes redirectAttributes, Model model) throws IOException {
+    public String saveProduct(Product product, @RequestParam("fileImage") MultipartFile multipartFile,
+                              @RequestParam("extraImage") MultipartFile[] extraImage,
+                              RedirectAttributes redirectAttributes, Model model) throws IOException {
 
-        if(!multipartFile.isEmpty()) {
+            setMainImageName(multipartFile, product);
+            setExtraImageName(extraImage, product);
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             product.setMainImage(fileName);
 
@@ -58,13 +61,27 @@ public class ProductController {
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        }
-        else {
-            productService.save(product);
-        }
 
         redirectAttributes.addFlashAttribute("message", "Lưu nhãn hiệu thành công!");
         return "redirect:/products";
+    }
+
+    private void setExtraImageName(MultipartFile[] extraImage, Product product) {
+        if(extraImage.length>0){
+            for (MultipartFile multipartFile : extraImage) {
+                if(!multipartFile.isEmpty()) {
+
+                }
+            }
+        }
+
+    }
+
+    private void setMainImageName(MultipartFile mainImageName, Product product) {
+        if(!mainImageName.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageName.getOriginalFilename());
+            product.setMainImage(fileName);
+        }
     }
 
     @GetMapping("/products/{id}/enabled/{enabled}")

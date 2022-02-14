@@ -60,6 +60,6 @@ public class User {
     @Transient
     public String getPhotosImagePath(){
         if(id == null || photos == null) return "/images/avatar.jpg";
-        return "user-photos/"+ this.id + "/"+ this.photos;
+        return "/user-photos/"+ this.id + "/"+ this.photos;
     }
 }
