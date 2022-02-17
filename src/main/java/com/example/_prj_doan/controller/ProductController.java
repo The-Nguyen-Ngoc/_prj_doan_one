@@ -19,6 +19,7 @@ import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class ProductController {
@@ -49,28 +50,60 @@ public class ProductController {
     @PostMapping("/products/save")
     public String saveProduct(Product product, @RequestParam("fileImage") MultipartFile multipartFile,
                               @RequestParam("extraImage") MultipartFile[] extraImage,
+                              @RequestParam(name = "detailNames", required = false) String[] detailNames,
+                              @RequestParam(name = "detailValues", required = false) String[] detailValues,
                               RedirectAttributes redirectAttributes, Model model) throws IOException {
 
-            setMainImageName(multipartFile, product);
-            setExtraImageName(extraImage, product);
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            product.setMainImage(fileName);
+        setMainImageName(multipartFile, product);
+        setExtraImageName(extraImage, product);
+        setDetailNameAndValue(detailNames, detailValues, product);
+        Product saveProduct = productService.save(product);
+        saveUploadedImages(multipartFile, extraImage, saveProduct);
 
-            Product saveProduct = productService.save(product);
+        redirectAttributes.addFlashAttribute("message", "Lưu sản phẩm thành công!");
+        return "redirect:/products";
+    }
+
+    private void setDetailNameAndValue(String[] detailNames, String[] detailValues, Product product) {
+        if (detailNames != null && detailValues != null) {
+            for (int i = 0; i < detailNames.length; i++) {
+                if (!detailNames[i].isEmpty() && !detailValues[i].isEmpty()) {
+                    product.addDetail(detailNames[i], detailValues[i]);
+                } else continue;
+            }
+        }
+    }
+
+    private void saveUploadedImages(MultipartFile multipartFile, MultipartFile[] extraImages,
+                                    Product saveProduct) throws IOException {
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String uploadDir = "product-images/" + saveProduct.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }
 
-        redirectAttributes.addFlashAttribute("message", "Lưu nhãn hiệu thành công!");
-        return "redirect:/products";
+        if (extraImages.length > 0) {
+            String uploadDir = "product-images/" + saveProduct.getId() + "/extras";
+
+            for (MultipartFile extraImage : extraImages) {
+                if (!extraImage.isEmpty()) {
+                    String fileName = StringUtils.cleanPath(extraImage.getOriginalFilename());
+                    FileUploadUtil.saveFile(uploadDir, fileName, extraImage);
+
+                }
+            }
+        }
     }
 
     private void setExtraImageName(MultipartFile[] extraImage, Product product) {
-        if(extraImage.length>0){
+        if (extraImage.length > 0) {
             for (MultipartFile multipartFile : extraImage) {
-                if(!multipartFile.isEmpty()) {
-
+                if (!multipartFile.isEmpty()) {
+                    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                    product.addExtraImages(fileName);
                 }
             }
         }
@@ -78,7 +111,7 @@ public class ProductController {
     }
 
     private void setMainImageName(MultipartFile mainImageName, Product product) {
-        if(!mainImageName.isEmpty()) {
+        if (!mainImageName.isEmpty()) {
             String fileName = StringUtils.cleanPath(mainImageName.getOriginalFilename());
             product.setMainImage(fileName);
         }
@@ -104,9 +137,32 @@ public class ProductController {
     }
 
     @GetMapping("/products/delete/{id}")
-    public String deleteBrand(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+    public String deleteBrand(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+
         productService.delete(id);
+        String uploadDirExtra = "product-images/" + id + "/extras";
+        String uploadDir = "product-images/" + id;
+
+        FileUploadUtil.cleanDir(uploadDirExtra);
+        FileUploadUtil.cleanDir(uploadDir);
         redirectAttributes.addFlashAttribute("message", "Xóa sản phẩm thành công!");
         return "redirect:/products";
+    }
+
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Product product = productService.get(id);
+            List<Brand> brands = brandService.listAllNameAndId();
+            Integer numberExtraImages = product.getImages().size();
+            model.addAttribute("product", product);
+            model.addAttribute("brands", brands);
+            model.addAttribute("numberExtraImages", numberExtraImages);
+            return "products/product_form";
+        } catch (NoSuchElementException e) {
+            redirectAttributes.addFlashAttribute("message", "Không tìm thấy sản phẩm!");
+            return "redirect:/products";
+
+        }
     }
 }

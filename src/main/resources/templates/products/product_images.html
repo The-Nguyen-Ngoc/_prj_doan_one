@@ -13,14 +13,43 @@
             </div>
             <br>
             <div>
-                <input type="file" id="fileImage" name="fileImage" accept="image/png,image/jpg, image/jpeg" required/>
+                <input type="file" id="fileImage" name="fileImage"
+                       th:required="${product.mainImage == null}"
+                       accept="image/png,image/jpg, image/jpeg"
+                      />
             </div>
+            <input type="hidden" th:field="*{mainImage}"/>
         </div>
 
-        <div class="col m-3 p-2" id="divExtraImage0">
-            <div id="extraImageHeader0"><label>Ảnh 1: </label></div>
+        <th:block th:each="productImage,status : ${product.images}">
+            <div class="col m-3 p-2" th:id="'divExtraImage'+${status.index}">
+                <div><label>Ảnh [[${status.index+1}]]: </label>
+                <button  type="button" class="btn btn-danger justify-content-center float-right mb-2"
+                         >
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                </div>
+                <div>
+                    <img th:id="'extraThumbnail'+ ${status.index}"
+                         th:alt="'Extra image'+ ${status.index}+'preview'"
+                         class="img-fluid"
+                         th:src="@{${productImage.imagePath}}"/>
+                </div>
+                <br>
+                <div>
+                    <input type="file" name="extraImage" accept="image/png,image/jpg, image/jpeg" />
+                </div>
+                <input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}"/>
+                <input type="hidden" name="imageNames" th:id="'imageName'+${status.index}"/>
+            </div>
+        </th:block>
+
+        <div class="col m-3 p-2" th:id="'divExtraImage'+${numberExtraImages}">
+            <div th:id="'extraImageHeader'+${numberExtraImages}"><label>Ảnh
+                [[${numberExtraImages+1}]]: </label></div>
             <div>
-                <img id="extraThumbnail0" alt="Extra image 1 preview" class="img-fluid"
+                <img th:id="'extraThumbnail'+${numberExtraImages}"
+                     th:alt="'Extra image'+ ${numberExtraImages} + 'preview'" class="img-fluid"
                      th:src="@{/images/preview.png}"/>
             </div>
             <br>

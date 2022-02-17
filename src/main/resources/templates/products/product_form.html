@@ -19,6 +19,8 @@
           onsubmit="return check_Unique(this)" enctype="multipart/form-data"
           th:object="${product}">
         <input type="hidden" name="id" th:value="${product.id}"/>
+        <input th:if="${product.category!=null}" type="hidden" id="categotyId"
+               th:value="${product.category.id}"/>
         <!-- Nav tabs -->
         <div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -50,7 +52,13 @@
                 <div class="tab-pane" id="images" role="tabpanel">
                     <div th:replace="products/product_images::content"></div>
                 </div>
-                <div class="tab-pane" id="details" role="tabpanel">..tỷyt.</div>
+                <div class="tab-pane" id="details" role="tabpanel">
+                    <div th:replace="products/product_details::content"></div>
+                    <div>
+                        <a onclick="addNextDetailSection()" class="btn-sm btn-outline-info">➕
+                        </a>
+                    </div>
+                </div>
                 <div class="tab-pane" id="shipping" role="tabpanel">
                     <div th:replace="products/product_shipping::content"></div>
                 </div>
@@ -73,6 +81,18 @@
     dropdownCategories = $("#category")
     defaultImageThumbnail = "[[@{/images/preview.png}]]"
     $(document).ready(buttonCancelAndFileImage("[[@{/products}]]"));
+
+    function getCategoriesForNewForm() {
+        catIdField = $("#categotyId");
+        editMode = false;
+        if(catIdField.length ) {
+            editMode = true;
+        }
+        if(!editMode){
+            getCategories();
+        }
+    }
+
     $(document).ready(function () {
         $("#shortDescription").richText();
         $("#fullDescription").richText();
@@ -80,7 +100,7 @@
             dropdownCategories.empty()
             getCategories();
         });
-        getCategories();
+        getCategoriesForNewForm();
 
         $("input[name='extraImage']").each(function (index) {
             extraImagesCount++;
@@ -131,6 +151,7 @@
 
     }
 </script>
+<script type="text/javascript" th:src="@{/js/products/product_details.js}"></script>
 </body>
 <footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Add Product')">
 </footer>

@@ -2,15 +2,18 @@ package com.example._prj_doan.entity;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +51,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private Set<ProductImage> images = new HashSet<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private List<ProductDetail>  details = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
@@ -60,13 +66,13 @@ public class Product {
         return this.enabled;
     }
 
+    public void addExtraImages(String imageName) {
+        this.images.add(new ProductImage(imageName, this));
+    }
+
     @Override
     public String toString() {
         return "Product{}";
-    }
-
-    public void addExtraImages(String imageName) {
-        this.images.add(new ProductImage(imageName, this));
     }
 
     @Transient
@@ -74,5 +80,9 @@ public class Product {
         if(id == null|| mainImage == null) return "/images/category.png";
 
         return "/product-images/"+this.id+"/"+this.mainImage;
+    }
+
+    public void addDetail(String detailName, String detailValue) {
+        this.details.add(new ProductDetail(detailName, detailValue, this));
     }
 }

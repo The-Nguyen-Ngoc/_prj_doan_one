@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -14,18 +15,18 @@ public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
-    public List<Product> listAll(){
+    public List<Product> listAll() {
         return (List<Product>) productRepo.findAll();
     }
 
-    public Product save(Product product){
-        if(product.getId() == null){
+    public Product save(Product product) {
+        if (product.getId() == null) {
             product.setCreatedTime(new Date());
         }
-        if(product.getAlias() == null|| product.getAlias().isEmpty()){
+        if (product.getAlias() == null || product.getAlias().isEmpty()) {
             String defaultAlias = product.getName().replaceAll(" ", "-");
             product.setAlias(defaultAlias);
-        }else product.setAlias(product.getAlias().replaceAll(" ", "-"));
+        } else product.setAlias(product.getAlias().replaceAll(" ", "-"));
 
         product.setUpdatedTime(new Date());
 
@@ -33,18 +34,17 @@ public class ProductService {
     }
 
     public String checkUnique(Integer id, String name) {
-        boolean createProduct = (id==null||id==0);
+        boolean createProduct = (id == null || id == 0);
         Product product = productRepo.findByName(name);
 
-        if(createProduct){
+        if (createProduct) {
             if (product != null) {
                 return "Tên sản phẩm đã tồn tại";
-            }else return "OK";
-        }else {
+            } else return "OK";
+        } else {
             if (product != null && !product.getId().equals(id)) {
                 return "Tên sản phẩm đã tồn tại";
-            }
-            else return "OK";
+            } else return "OK";
         }
     }
 
@@ -56,5 +56,13 @@ public class ProductService {
 
     public void delete(Integer id) {
         productRepo.deleteById(id);
+    }
+
+    public Product get(Integer id) {
+        try {
+            return productRepo.findById(id).get();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Không tìm thấy sản phẩm");
+        }
     }
 }

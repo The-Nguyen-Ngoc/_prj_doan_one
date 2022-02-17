@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="content" id="divProductDetails">
+    <th:block th:each="detail,status:${product.details}">
+        <div class="form-inline" th:id="'divDetail'+${status.index}">
+            <label class="m-3">Thuộc tính:</label>
+            <input type="text" class="form-control m-3 w-25" name="detailNames"
+                   th:value="${detail.name}" maxlength="255"/>
+            <label class="m-3">Giá trị:</label>
+            <input  th:value="${detail.value}" type="text" class="form-control m-3 w-25"
+                    name="detailValues" maxlength="255"/>
+            <a name="linkRemoveDetail" class="form-control border-danger" >
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        </div>
+
+    </th:block>
+
+    <div class="form-inline" id="divDetail0">
+        <label class="m-3">Thuộc tính:</label>
+        <input type="text" class="form-control m-3 w-25" name="detailNames" maxlength="255"/>
+        <label class="m-3">Giá trị:</label>
+        <input type="text" class="form-control m-3 w-25"  name="detailValues" maxlength="255"/>
+    </div>
+
+</div>
+</body>
+</html>
