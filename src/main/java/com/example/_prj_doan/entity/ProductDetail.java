@@ -1,5 +1,6 @@
 package com.example._prj_doan.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "product_details")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDetail {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)

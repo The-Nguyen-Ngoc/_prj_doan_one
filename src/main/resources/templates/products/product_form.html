@@ -109,6 +109,12 @@
             });
         });
 
+        $("a[name='linkRemoveExtraImage']").each(function (index) {
+            $(this).click(function () {
+                removeExtraImage(index)
+            });
+        });
+
     });
 
     function removeExtraImage(index) {
@@ -127,22 +133,25 @@
     }
 
     function check_Unique(form) {
-        catId = $("#id").val();
-        catName = $("#name").val();
+        productId = $("input[name='id']").val();
+        productName = $("#name").val();
 
         csrfValue = $("input[name='_csrf']").val();
         url = "[[@{/products/checkUnique}]]";
         params = {
-            id: catId,
-            name: catName,
+            id: productId,
+            name: productName,
             _csrf: csrfValue
         };
         $.post(url, params, function (response) {
             if (response == "OK") {
                 form.submit();
             }
-            if (response == "Tên sản phẩm đã tồn tại") {
-                showModalDialog("Cảnh Báo", "Đã tồn tại sản phẩm " + catName)
+            else if (response == "Duplicated") {
+                showModalDialog("Cảnh Báo", "Đã tồn tại sản phẩm " + productName)
+            }
+            else {
+                showModalDialog("Lỗi", "Có lỗi xảy ra")
             }
         }).fail(function () {
             showModalDialog("Cảnh Báo", "Lỗi kết nối tới server")

@@ -39,13 +39,14 @@ public class ProductService {
 
         if (createProduct) {
             if (product != null) {
-                return "Tên sản phẩm đã tồn tại";
-            } else return "OK";
+                return "Duplicated";
+            }
         } else {
-            if (product != null && !product.getId().equals(id)) {
-                return "Tên sản phẩm đã tồn tại";
-            } else return "OK";
+            if (product != null && product.getId()!=id) {
+                return "Duplicated";
+            }
         }
+        return "OK";
     }
 
     public void updateEnabledStatus(Integer id) {

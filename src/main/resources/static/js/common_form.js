@@ -28,10 +28,10 @@ function addNextExtraImage(index) {
         </div>`
 
     htmlRemove = `
-                    <button  type="button" class="btn btn-danger justify-content-center float-right mb-2"
+                    <a  type="button" class="btn btn-danger justify-content-center float-right mb-2"
                      onclick="removeExtraImage(${index-1})">
                         <i class="fas fa-trash-alt"></i>
-                    </button>
+                    </a>
                 `
     $('#divProductImages').append(html);
     $('#extraImageHeader'+(index-1)).append(htmlRemove);
@@ -40,6 +40,13 @@ function addNextExtraImage(index) {
 
 function showExtraImageThumbnail(fileInput, index){
     var file = fileInput.files[0];
+    fileName = file.name;
+    imageNameHiddenField  = $("#imageName"+ index);
+    if(imageNameHiddenField.length){
+        imageNameHiddenField.val(fileName);
+    }
+
+
     var reader = new FileReader();
 
     reader.onload = function (e){

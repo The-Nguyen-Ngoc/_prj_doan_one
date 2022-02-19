@@ -49,9 +49,9 @@ public class Product {
     @Column(name = "main_image", nullable = false)
     private String mainImage;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductImage> images = new HashSet<>();
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductDetail>  details = new ArrayList<>();
 
     @ManyToOne
@@ -84,5 +84,20 @@ public class Product {
 
     public void addDetail(String detailName, String detailValue) {
         this.details.add(new ProductDetail(detailName, detailValue, this));
+    }
+
+    public void addDetail(Integer id, String detailName, String detailValue) {
+        this.details.add(new ProductDetail(id, detailName, detailValue, this));
+    }
+
+    public boolean containsImageName(String fileName) {
+        Iterator<ProductImage> iterator = images.iterator();
+
+        while (iterator.hasNext()) {
+            ProductImage productImage = iterator.next();
+            if(productImage.getName().equals(fileName)) return true;
+        }
+
+        return false;
     }
 }

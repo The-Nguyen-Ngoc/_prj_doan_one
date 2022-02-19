@@ -24,10 +24,10 @@
         <th:block th:each="productImage,status : ${product.images}">
             <div class="col m-3 p-2" th:id="'divExtraImage'+${status.index}">
                 <div><label>Ảnh [[${status.index+1}]]: </label>
-                <button  type="button" class="btn btn-danger justify-content-center float-right mb-2"
-                         >
+                <a  type="button" class="btn btn-danger justify-content-center float-right mb-2"
+                     name="linkRemoveExtraImage" >
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </a>
                 </div>
                 <div>
                     <img th:id="'extraThumbnail'+ ${status.index}"
@@ -39,8 +39,8 @@
                 <div>
                     <input type="file" name="extraImage" accept="image/png,image/jpg, image/jpeg" />
                 </div>
-                <input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}"/>
-                <input type="hidden" name="imageNames" th:id="'imageName'+${status.index}"/>
+                <input type="hidden" th:value="${productImage.id}" name="imageIDs" th:id="'imageId'+${status.index}"/>
+                <input type="hidden" th:value="${productImage.name}" name="imageNames" th:id="'imageName'+${status.index}"/>
             </div>
         </th:block>
 
