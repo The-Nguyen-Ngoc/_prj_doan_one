@@ -100,7 +100,6 @@ public class UserController {
             if(user.getPhotos().isEmpty()) user.setPhotos(null);
             userService.save(user);
         }
-        String firstPartOfEmail = user.getEmail().split("@")[0];
         redirectAttributes.addFlashAttribute("message", "Thêm người dùng thành công!");
         return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword="+user.getEmail();
     }

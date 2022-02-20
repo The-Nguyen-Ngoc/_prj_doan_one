@@ -1,6 +1,5 @@
 package com.example._prj_doan.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +25,9 @@ public class Category {
     @Column(length = 128, nullable = false)
     private String image;
     private boolean enabled;
+
+    @Column(name = "all_parent_ids", length = 256, nullable = true)
+    private String allParentIDs;
 
     @OneToOne
     @JoinColumn(name = "parent_id")
@@ -57,10 +59,7 @@ public class Category {
         this.children = children;
     }
 
-    @Override
-    public String toString() {
-        return "";
-    }
+
     @Transient
     public String getImagePath(){
         if(this.id == null) return "/images/category.png";

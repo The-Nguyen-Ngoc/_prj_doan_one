@@ -49,14 +49,19 @@ public class CategoryController {
     @PostMapping("/categories/save")
     public String saveCategory(Category category, @RequestParam("fileImage") MultipartFile file,
                                RedirectAttributes redirectAttributes) throws IOException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        category.setImage(fileName);
+        if(!file.isEmpty()) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename()).replace(" ", "");
+            category.setImage(fileName);
 
-        Category savedCategory = categoryService.save(category);
-        String uploadDir = "category-images/" + savedCategory.getId();
+            Category savedCategory = categoryService.save(category);
+            String uploadDir = "category-images/" + savedCategory.getId();
 
-        FileUploadUtil.cleanDir(uploadDir);
-        FileUploadUtil.saveFile(uploadDir, fileName, file);
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
+        }else {
+            if(category.getImage().isEmpty()) category.setImage(null);
+            categoryService.save(category);
+        }
 
         redirectAttributes.addFlashAttribute("message", "Saved category successfully!");
         return "redirect:/categories";
@@ -66,10 +71,12 @@ public class CategoryController {
     public String editUser(@PathVariable(name = "id") Integer id,
                            Model model,
                            RedirectAttributes redirectAttributes) {
+        List<Category> categoriesInForm = categoryService.lisCategoriesUsedInForm();
         try {
             Category categoryEdit = categoryService.findById(id);
             model.addAttribute("category", categoryEdit);
             model.addAttribute("pageTitle", "Cập Nhật Danh Mục");
+            model.addAttribute("categoriesInForm", categoriesInForm);
             return "categories/category_form";
         } catch (NotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());

@@ -74,6 +74,16 @@
     <span th:if="${sortField == fieldName && sortDir == 'desc'}">⬇</span>
 </th>
 
+<!--    column link product-->
+<th th:fragment="column_link_product(url,fieldName, columnLabel)">
+    <a class="text-danger"
+       th:href="@{${url}+ ${pageNum}+ '?sortField=' +${fieldName}+ '&sortDir=' +${reverseSortDir} +'&categoryId='+${categoryId}+ ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">
+        [[${columnLabel}]]
+    </a>
+    <span th:if="${sortField == fieldName && sortDir == 'asc'}">⬆</span>
+    <span th:if="${sortField == fieldName && sortDir == 'desc'}">⬇</span>
+</th>
+
 <!--title page-->
 <div th:fragment="titleHeaderPage(pageTitle_1, pageTitle_2)"
      class="text-danger m-3 border-bottom border-danger">
@@ -83,6 +93,13 @@
 <a th:fragment="page_link(pageNum, label)"
    class="page-link bg-light text-dark"
    th:href="@{'/users/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+</a>
+
+<!--    page link product-->
+
+<a th:fragment="page_link_product(pageNum, label)"
+   class="page-link bg-light text-dark"
+   th:href="@{'/products/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+'&categoryId='+${categoryId} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
 </a>
 
 <!--menu-->

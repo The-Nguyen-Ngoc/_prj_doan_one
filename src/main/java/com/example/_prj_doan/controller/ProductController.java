@@ -1,14 +1,15 @@
 package com.example._prj_doan.controller;
 
-import com.example._prj_doan.entity.Brand;
-import com.example._prj_doan.entity.Product;
-import com.example._prj_doan.entity.ProductImage;
+import com.example._prj_doan.constain.Constant;
+import com.example._prj_doan.entity.*;
 import com.example._prj_doan.service.BrandService;
+import com.example._prj_doan.service.CategoryService;
 import com.example._prj_doan.service.ProductService;
 import com.example._prj_doan.utils.FileUploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -37,11 +38,12 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/products")
     public String listAll(Model model) {
-        model.addAttribute("products", productService.listAll());
-        return "products/products";
+        return listByPage(1, model, "name", "asc", null,0);
     }
 
     @GetMapping("/products/new")
@@ -238,4 +240,38 @@ public class ProductController {
 
         }
     }
+
+    @GetMapping("/products/page/{pageNum}")
+    public String listByPage(@PathVariable(name ="pageNum") int pageNum, Model model,
+                             @RequestParam("sortField") String sortField,
+                             @RequestParam("sortDir") String sortDir,
+
+                             @RequestParam("keyword") String keyword,
+                             @RequestParam("categoryId") Integer categoryId){
+        Page<Product> productPages = productService.listByPage(pageNum, sortField, sortDir, keyword,categoryId);
+
+        List<Category> categories = categoryService.lisCategoriesUsedInForm();
+        long startCount = (pageNum-1)* Constant.PRODUCTS_IN_PAGE + 1;
+        long endCountExpected = startCount + Constant.PRODUCTS_IN_PAGE -1;
+        long endCount = (endCountExpected > productPages.getTotalElements()) ?
+                productPages.getTotalElements() : endCountExpected;
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+        if(categoryId != null) model.addAttribute("categoryId", categoryId);
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("totalsPage", productPages.getTotalPages());
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("products", productPages.getContent());
+        model.addAttribute("categories", categories);
+        model.addAttribute("totalItems", productPages.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("keyword", keyword);
+
+        return "products/products";
+    }
+
 }

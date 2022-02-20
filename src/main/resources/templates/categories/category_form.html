@@ -41,7 +41,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Nằm trong danh mục :</label>
                 <div class="col-sm-8">
-                    <select>
+                    <select th:field="*{parent}">
                         <option value="0">[Danh mục sản phẩm lớn]</option>
                         <th:block th:each="category: ${categoriesInForm}">
                             <option th:value="${category.id}">[[${category.name}]]</option>
@@ -64,7 +64,7 @@
                     <input type="hidden" th:field="*{image}"/>
                     <input type="file" id="fileImage" name="fileImage"
                            accept="image/png,image/jpg, image/jpeg"
-                           class="mb-2" required/>
+                           class="mb-2"/>
                     <img style="width:120px; height: 100px;" id="thumbnail" alt="Image preview"
                          th:src="@{${category.imagePath}}"
                          class="img-fluid "/>
