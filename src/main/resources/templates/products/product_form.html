@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="vi">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="vi">
 <head>
     <head th:replace="fragments::header('Thêm Sản Phẩm 👨‍💻')"/>
     <link rel="stylesheet" type="text/css" th:href="@{/richtext/richtextmin.css}"/>
@@ -47,27 +49,42 @@
                     <div th:replace="products/product_overview::content"></div>
                 </div>
                 <div class="tab-pane" id="description" role="tabpanel">
-                    <th:block sec:authorize="hasAuthority('Salesperson')">
-                        <div th:replace="products/product_description_read_only::content"></div>
+                    <th:block
+                            th:if="${!#authorization.expression('hasAuthority(''Admin'')')&&!#authorization.expression('hasAuthority(''Editor'')')}">
+                        <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+                            <div th:replace="products/product_description_read_only::content"></div>
+                        </th:block>
                     </th:block>
-                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+
+                    <th:block
+                            th:if="${#authorization.expression('hasAuthority(''Admin'')')||#authorization.expression('hasAuthority(''Editor'')')}">
                         <div th:replace="products/product_description::content"></div>
                     </th:block>
+
                 </div>
                 <div class="tab-pane" id="images" role="tabpanel">
-                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                        <div th:replace="products/product_images::content"></div>
+                    <th:block
+                            th:if="${!#authorization.expression('hasAuthority(''Admin'')')&&!#authorization.expression('hasAuthority(''Editor'')')}">
+                        <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+                            <div th:replace="products/product_images_read_only::content"></div>
+                        </th:block>
                     </th:block>
-                    <th:block sec:authorize="hasAuthority('Salesperson')">
-                        <div th:replace="products/product_images_read_only::content"></div>
+                    <th:block
+                            th:if="${#authorization.expression('hasAuthority(''Admin'')')||#authorization.expression('hasAuthority(''Editor'')')}">
+                        <div th:replace="products/product_images::content"></div>
                     </th:block>
                 </div>
                 <div class="tab-pane" id="details" role="tabpanel">
-                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                        <div th:replace="products/product_details::content"></div>
+                    <th:block
+                            th:if="${!#authorization.expression('hasAuthority(''Admin'')')&&!#authorization.expression('hasAuthority(''Editor'')')}">
+                        <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+
+                            <div th:replace="products/product_details_read_only::content"></div>
+                        </th:block>
                     </th:block>
-                    <th:block sec:authorize="hasAuthority('Salesperson')">
-                        <div th:replace="products/product_details_read_only::content"></div>
+                    <th:block
+                            th:if="${#authorization.expression('hasAuthority(''Admin'')')||#authorization.expression('hasAuthority(''Editor'')')}">
+                        <div th:replace="products/product_details::content"></div>
                     </th:block>
                     <div>
                         <a onclick="addNextDetailSection()" class="btn-sm btn-outline-info">➕
@@ -75,11 +92,15 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="shipping" role="tabpanel">
-                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                    <div th:replace="products/product_shipping::content"></div>
+                    <th:block
+                            th:if="${#authorization.expression('hasAuthority(''Admin'')')||#authorization.expression('hasAuthority(''Editor'')')}">
+                        <div th:replace="products/product_shipping::content"></div>
                     </th:block>
-                    <th:block sec:authorize="hasAuthority('Salesperson')">
-                    <div th:replace="products/product_shipping_read_only::content"></div>
+                    <th:block
+                            th:if="${!#authorization.expression('hasAuthority(''Admin'')')&&!#authorization.expression('hasAuthority(''Editor'')')}">
+                        <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+                        <div th:replace="products/product_shipping_read_only::content"></div>
+                    </th:block>
                     </th:block>
                 </div>
             </div>

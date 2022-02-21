@@ -1,10 +1,7 @@
 package com.example._prj_doan.entity;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,7 +10,7 @@ import java.util.*;
 @Table(name = "products")
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,14 +67,13 @@ public class Product {
         this.images.add(new ProductImage(imageName, this));
     }
 
-    @Override
-    public String toString() {
-        return "Product{}";
+
+    public Product() {
     }
 
     @Transient
     public String getMainImagePath(){
-        if(id == null|| mainImage == null) return "/images/category.png";
+        if(id == null|| mainImage == null) return "/images/preview.png";
 
         return "/product-images/"+this.id+"/"+this.mainImage;
     }
