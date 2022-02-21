@@ -94,4 +94,12 @@ public class ProductService {
 
         return productRepo.findAll(pageable);
     }
+
+    public void saveProductPrice(Product product){
+        Product productInDB = productRepo.findById(product.getId()).get();
+        productInDB.setPrice(product.getPrice());
+        productInDB.setCost(product.getCost());
+        productInDB.setDiscountPercent(product.getDiscountPercent());
+        productRepo.save(productInDB);
+    }
 }

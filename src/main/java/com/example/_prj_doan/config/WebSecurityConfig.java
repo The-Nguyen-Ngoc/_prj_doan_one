@@ -41,8 +41,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users/**").hasAuthority("Admin")
                 .antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
-                .antMatchers("/products/**").hasAnyAuthority("Admin", "Editor","Salesperson","Shipper")
-                .anyRequest().authenticated()
+                .antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
+
+                .antMatchers("/products/edit/**", "/products/save", "/products/checkUnique")
+                .hasAnyAuthority("Admin", "Editor", "Salesperson")
+
+                .antMatchers("/products", "/products/", "/products/detail/**", "/products/page/**")
+                .hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
+
+                .antMatchers("/products/**").hasAnyAuthority("Admin", "Editor").anyRequest().authenticated()
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("email")
                 .permitAll()
@@ -52,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-       web.ignoring().antMatchers("/images/**","/js/**", "/webjars/**");
+       web.ignoring().antMatchers("/images/**","/js/**", "/webjars/**","/style/**","/webfonts/**","/fontawesome/**");
     }
 
 

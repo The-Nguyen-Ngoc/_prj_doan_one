@@ -47,20 +47,40 @@
                     <div th:replace="products/product_overview::content"></div>
                 </div>
                 <div class="tab-pane" id="description" role="tabpanel">
-                    <div th:replace="products/product_description::content"></div>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_description_read_only::content"></div>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_description::content"></div>
+                    </th:block>
                 </div>
                 <div class="tab-pane" id="images" role="tabpanel">
-                    <div th:replace="products/product_images::content"></div>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_images::content"></div>
+                    </th:block>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_images_read_only::content"></div>
+                    </th:block>
                 </div>
                 <div class="tab-pane" id="details" role="tabpanel">
-                    <div th:replace="products/product_details::content"></div>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_details::content"></div>
+                    </th:block>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_details_read_only::content"></div>
+                    </th:block>
                     <div>
                         <a onclick="addNextDetailSection()" class="btn-sm btn-outline-info">➕
                         </a>
                     </div>
                 </div>
                 <div class="tab-pane" id="shipping" role="tabpanel">
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                     <div th:replace="products/product_shipping::content"></div>
+                    </th:block>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                    <div th:replace="products/product_shipping_read_only::content"></div>
+                    </th:block>
                 </div>
             </div>
         </div>
@@ -85,10 +105,10 @@
     function getCategoriesForNewForm() {
         catIdField = $("#categotyId");
         editMode = false;
-        if(catIdField.length ) {
+        if (catIdField.length) {
             editMode = true;
         }
-        if(!editMode){
+        if (!editMode) {
             getCategories();
         }
     }
@@ -105,7 +125,7 @@
         $("input[name='extraImage']").each(function (index) {
             extraImagesCount++;
             $(this).change(function () {
-                showExtraImageThumbnail(this,index)
+                showExtraImageThumbnail(this, index)
             });
         });
 
@@ -146,11 +166,9 @@
         $.post(url, params, function (response) {
             if (response == "OK") {
                 form.submit();
-            }
-            else if (response == "Duplicated") {
+            } else if (response == "Duplicated") {
                 showModalDialog("Cảnh Báo", "Đã tồn tại sản phẩm " + productName)
-            }
-            else {
+            } else {
                 showModalDialog("Lỗi", "Có lỗi xảy ra")
             }
         }).fail(function () {

@@ -1,5 +1,6 @@
 package com.example._prj_doan.controller;
 
+import com.example._prj_doan.config.LoginUserDetails;
 import com.example._prj_doan.constain.Constant;
 import com.example._prj_doan.entity.*;
 import com.example._prj_doan.service.BrandService;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -61,14 +63,20 @@ public class ProductController {
     }
 
     @PostMapping("/products/save")
-    public String saveProduct(Product product, @RequestParam("fileImage") MultipartFile multipartFile,
-                              @RequestParam("extraImage") MultipartFile[] extraImage,
+    public String saveProduct(Product product, @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+                              @RequestParam(value = "extraImage", required = false) MultipartFile[] extraImage,
                               @RequestParam(name = "detailIDs", required = false) String[] detailIDs,
                               @RequestParam(name = "detailNames", required = false) String[] detailNames,
                               @RequestParam(name = "detailValues", required = false) String[] detailValues,
                               @RequestParam(name = "imageIDs", required = false) String[] imageIDs,
                               @RequestParam(name = "imageNames", required = false) String[] imageNames,
+                              @AuthenticationPrincipal LoginUserDetails loginUserDetails,
                               RedirectAttributes redirectAttributes, Model model) throws IOException {
+        if(loginUserDetails.hasRole("Salesperson")){
+            productService.saveProductPrice(product);
+            redirectAttributes.addFlashAttribute("message", "Lưu sản phẩm thành công!");
+            return "redirect:/products";
+        }
 
         setMainImageName(multipartFile, product);
         setExistingExtraImageNames(imageIDs, imageNames, product);

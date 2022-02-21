@@ -22,7 +22,7 @@ public class Product {
     private String name;
     @Column(unique = true,length = 256,nullable = false)
     private String alias;
-    @Column(length = 512,nullable = false, name = "short_description")
+    @Column(length = 912,nullable = false, name = "short_description")
     private String shortDescription;
     @Column(length = 5000,nullable = false, name = "full_description")
     private String fullDescription;

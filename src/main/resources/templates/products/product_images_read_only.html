@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="tab-pane" id="images" role="tabpanel">
+        <div class="row">
+            <div class="col m-3 p-2">
+                <div><h5 class="m-4 text-danger">Ảnh chính: </h5></div>
+                <div>
+                    <img alt="Main image preview" class="img-fluid"
+                         th:src="@{${product.mainImagePath}}"/>
+                </div>
+                <br>
+            </div>
+
+            <th:block th:each="productImage,status : ${product.images}">
+                <div class="col m-3 p-2" th:id="'divExtraImage'+${status.index}">
+                    <div><h5 class="m-4 text-danger">Ảnh [[${status.index+1}]]: </h5>
+                    </div>
+                    <div>
+                        <img
+                                th:alt="'Extra image'+ ${status.index}+'preview'"
+                                class="img-fluid"
+                                th:src="@{${productImage.imagePath}}"/>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

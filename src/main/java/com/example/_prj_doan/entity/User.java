@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -61,5 +62,17 @@ public class User {
     public String getPhotosImagePath(){
         if(id == null || photos == null) return "/images/avatar.jpg";
         return "/user-photos/"+ this.id + "/"+ this.photos;
+    }
+
+    public boolean hasRole(String roleName){
+        Iterator<Role> iterator = roles.iterator();
+
+        while (iterator.hasNext()){
+            Role role = iterator.next();
+            if(role.getName().equals(roleName)){
+                return true;
+            }
+        }
+        return false;
     }
 }

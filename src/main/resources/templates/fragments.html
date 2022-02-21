@@ -127,31 +127,60 @@
         </button>
         <div class="collapse navbar-collapse" id="topNavbar">
             <ul class="navbar-nav mt-4">
-                <li class="nav-item px-1 h6" sec:authorize="hasAuthority('Admin')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/users}">Account</a>
-                </li>
+                <th:block sec:authorize="hasAuthority('Admin')">
+                    <li class="nav-item dropdown px-1 h6">
+                        <a id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/users}">Account</a>
+                        <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:href="@{/users/new}">Tạo Account</a>
+                            <a class="dropdown-item" th:href="@{/users}">Xem Danh Sách Account</a>
+                        </div>
+                    </li>
+                </th:block>
 
-                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/brands}">Nhãn Hiệu </a>
-                </li>
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                    <li class="nav-item dropdown px-1 h6">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/brands}">Nhà Sản Xuất</a>
+                        <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:href="@{/brands/new}">Tạo NSX</a>
+                            <a class="dropdown-item" th:href="@{/brands}">Xem Danh Sách NSX</a>
+                        </div>
+                    </li>
+                </th:block>
 
-                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin','Editor')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/categories}">Danh Mục</a>
-                </li>
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                    <li class="nav-item dropdown px-1 h6">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/categories}">Danh Mục Sản Phẩm</a>
+                        <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:href="@{/categories/new}">Tạo danh mục</a>
+                            <a class="dropdown-item" th:href="@{/categories}">Xem danh mục</a>
+                        </div>
+                    </li>
+                </th:block>
 
-                <li class="nav-item px-1 h6 "
-                    sec:authorize="hasAnyAuthority('Admin','Editor','Shipper','Salesperson')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/products}">Sản Phẩm</a>
-                </li>
-                <li class="nav-item px-1 h6 "
-                    sec:authorize="hasAnyAuthority('Admin','Salesperson')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/customers}">Khách Hàng</a>
-                </li>
+                <th:block  sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Shipper', 'Salesperson')">
+                    <li class="nav-item dropdown px-1 h6">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/products}">Sản Phẩm</a>
+                        <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" sec:authorize="hasAnyAuthority('Admin', 'Editor')" th:href="@{/products/new}">Tạo sản phẩm</a>
+                            <a class="dropdown-item" th:href="@{/products}">Xem sản phẩm</a>
+                        </div>
+                    </li>
+                </th:block>
+
+                <th:block  sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                    <li class="nav-item dropdown px-1 h6">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
+                           th:href="@{/customers}">Khách Hàng</a>
+                        <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:href="@{/customers/new}">Tạo KH</a>
+                            <a class="dropdown-item" th:href="@{/customers}">Xem KH</a>
+                        </div>
+                    </li>
+                </th:block>
                 <li class="nav-item px-1 h6 "
                     sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"

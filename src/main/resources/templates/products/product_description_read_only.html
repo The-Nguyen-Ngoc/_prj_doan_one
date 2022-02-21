@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="content" th:remove="tag">
+    <h5 class="m-4  text-info">Mô tả ngắn :</h5>
+    <div>
+        <div>
+            <div th:utext="${product.shortDescription}" class="border p-4 m-2"></div>
+        </div>
+    </div>
+    <h5 class="m-4 text-info">Mô tả đầy đủ :</h5>
+    <div>
+        <div>
+            <div th:utext="${product.fullDescription}" class="border p-4 m-2"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

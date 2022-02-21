@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="content" id="divProductDetails">
+    <br>
+    <br>
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="bg-info">
+        <tr>
+            <th>Tên Thuộc Tính</th>
+            <th>Giá Trị</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detail,status:${product.details}">
+            <td>[[${detail.name}]]</td>
+            <td>[[${detail.value}]]</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

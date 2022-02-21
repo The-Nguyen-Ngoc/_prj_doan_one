@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="vi">
 <head th:replace="fragments::header('Quản Lý Sản Phẩm 👩‍🌾')">
 </head>
 <body>
@@ -8,12 +8,17 @@
     <div th:replace="fragments::menu"></div>
     <div th:replace="fragments::titleHeaderPage('Quản Lý Sản Phẩm', null)"></div>
     <div class="m-4">
-        <button type="button" class="mt-4 btn btn-outline-primary">
-            <a class="fas fa-plus fa icon-dark" th:href="@{/products/new}"></a>
-        </button>
-        <button type="button" class="mt-4 btn btn-outline-success">
-            <a class="text-dark" th:href="@{/products/export/csv}">Xuất File CSV</a>
-        </button>
+
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+            <div>
+                <button type="button" class="mt-4 btn btn-outline-primary">
+                    <a class="fas fa-plus fa icon-dark" th:href="@{/products/new}"></a>
+                </button>
+                <button type="button" class="mt-4 btn btn-outline-success">
+                    <a class="text-dark" th:href="@{/products/export/csv}">Xuất File CSV</a>
+                </button>
+            </div>
+        </th:block>
         <div class="m-4 justify-content-end">
             <form th:action="@{/products/page/1}" class="form-inline" id="searchForm">
                 <input type="hidden" name="sortField" th:value="${sortField}"/>
@@ -21,8 +26,10 @@
                 Danh mục:&ensp;
                 <select class="form-control" name="categoryId" id="dropdownCategory">
                     <option value="0">Tất cả</option>
-                    <th:block th:each="category : ${categories}" >
-                        <option th:selected="(${categoryId}== ${category.id})"  th:value="${category.id}">[[${category.name}]]</option>
+                    <th:block th:each="category : ${categories}">
+                        <option th:selected="(${categoryId}== ${category.id})" th:value="${category.id}">
+                            [[${category.name}]]
+                        </option>
                     </th:block>
                 </select>
                 &ensp;&ensp;&ensp;🔎&nbsp;&nbsp;&nbsp;
@@ -46,7 +53,10 @@
                 <th th:replace="fragments :: column_link_product('/products/page/','name', 'Tên Sản Phẩm')"></th>
                 <th th:replace="fragments :: column_link_product('/products/page/','brand', 'Nhà Sản Xuất')"></th>
                 <th th:replace="fragments :: column_link_product('/products/page/','category', 'Danh Mục')"></th>
-                <th>Trạng Thái</th>
+
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                    <th>Trạng Thái</th>
+                </th:block>
                 <th>Hành Động</th>
             </tr>
             </thead>
@@ -67,9 +77,11 @@
                          th:src="@{${product.mainImagePath}}"/>
                 </td>
                 <td class="w-25"><a class="link_detail" th:href="@{'/products/detail/' + ${product.id}}"
-                       title="Xem chi tiết sản phẩm">[[${product.shortName}]]</a></td>
+                                    title="Xem chi tiết sản phẩm">[[${product.shortName}]]</a></td>
                 <td><h4 class="text-danger">[[${product.brand.name}]]</h4></td>
                 <td><h4 class="text-info">[[${product.category.name}]]</h4></td>
+
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                 <td>
                     <a th:if="${product.enabled ==true}"
                        th:href="@{'/products/'+${product.id} +'/enabled/false'}"
@@ -93,12 +105,14 @@
                         </svg>
                     </a>
                 </td>
+                </th:block>
                 <td class="w-25">
                     <a class="link_detail" th:href="@{'/products/detail/' + ${product.id}}"
                        title="Xem chi tiết sản phẩm">
                         📑
                     </a>
                     &nbsp;&nbsp;
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
                     <a th:href="@{'/products/edit/' + ${product.id}}" title="Edit this Category">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
                              height="24">
@@ -106,7 +120,10 @@
                                   d="M17.263 2.177a1.75 1.75 0 012.474 0l2.586 2.586a1.75 1.75 0 010 2.474L19.53 10.03l-.012.013L8.69 20.378a1.75 1.75 0 01-.699.409l-5.523 1.68a.75.75 0 01-.935-.935l1.673-5.5a1.75 1.75 0 01.466-.756L14.476 4.963l2.787-2.786zm-2.275 4.371l-10.28 9.813a.25.25 0 00-.067.108l-1.264 4.154 4.177-1.271a.25.25 0 00.1-.059l10.273-9.806-2.94-2.939zM19 8.44l2.263-2.262a.25.25 0 000-.354l-2.586-2.586a.25.25 0 00-.354 0L16.061 5.5 19 8.44z"></path>
                         </svg>
                     </a>
+                    </th:block>
                     &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                     <a th:href="@{'/products/delete/' + ${product.id}}" title="Delete this User"
                        class="link-delete"
                        th:userId="${product.id}">
@@ -118,6 +135,7 @@
                             <path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"></path>
                         </svg>
                     </a>
+                    </th:block>
                 </td>
             </tr>
             </tbody>
@@ -131,7 +149,9 @@
                 <th>Image</th>
                 <th th:replace="fragments :: column_link_product('/products/page/','name', 'Tên Sản Phẩm')"></th>
                 <th th:replace="fragments :: column_link_product('/products/page/','brand', 'Nhà Sản Xuất')"></th>
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                 <th>Trạng Thái</th>
+                </th:block>
                 <th>Hành Động</th>
             </tr>
             </thead>
@@ -153,6 +173,8 @@
                 <td><a class="link_detail" th:href="@{'/products/detail/' + ${product.id}}"
                        title="Xem chi tiết sản phẩm">[[${product.shortName}]]</a></td>
                 <td>[[${product.brand.name}]]</td>
+
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                 <td>
                     <a th:if="${product.enabled ==true}"
                        th:href="@{'/products/'+${product.id} +'/enabled/false'}"
@@ -176,12 +198,15 @@
                         </svg>
                     </a>
                 </td>
+                </th:block>
+
                 <td>
                     <a class="link_detail" th:href="@{'/products/detail/' + ${product.id}}"
                        title="Xem chi tiết sản phẩm">
                         📑
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
                     <a th:href="@{'/products/edit/' + ${product.id}}" title="Edit this Category">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
                              height="24">
@@ -189,7 +214,9 @@
                                   d="M17.263 2.177a1.75 1.75 0 012.474 0l2.586 2.586a1.75 1.75 0 010 2.474L19.53 10.03l-.012.013L8.69 20.378a1.75 1.75 0 01-.699.409l-5.523 1.68a.75.75 0 01-.935-.935l1.673-5.5a1.75 1.75 0 01.466-.756L14.476 4.963l2.787-2.786zm-2.275 4.371l-10.28 9.813a.25.25 0 00-.067.108l-1.264 4.154 4.177-1.271a.25.25 0 00.1-.059l10.273-9.806-2.94-2.939zM19 8.44l2.263-2.262a.25.25 0 000-.354l-2.586-2.586a.25.25 0 00-.354 0L16.061 5.5 19 8.44z"></path>
                         </svg>
                     </a>
+                    </th:block>
                     <br>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                     <a th:href="@{'/products/delete/' + ${product.id}}" title="Delete this User"
                        class="link-delete"
                        th:userId="${product.id}">
@@ -201,6 +228,7 @@
                             <path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"></path>
                         </svg>
                     </a>
+                    </th:block>
                 </td>
             </tr>
             </tbody>
@@ -218,7 +246,7 @@
     </div>
 
     <div th:if="${totalsPage>1}">
-        <nav >
+        <nav>
             <ul class="pagination justify-content-center pb-4">
                 <li th:class="${pageNum>1} ? 'page-item' : 'page-item disabled'">
                     <a th:replace="fragments :: page_link_product(1, 'Trang đầu')"/>
