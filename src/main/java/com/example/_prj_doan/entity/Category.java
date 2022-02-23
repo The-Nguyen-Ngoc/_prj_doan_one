@@ -34,6 +34,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
+    @OrderBy("name ASC")
     private Set<Category> children = new HashSet<>();
 
     public Category(String name) {

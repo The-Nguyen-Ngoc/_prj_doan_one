@@ -2,7 +2,6 @@ package com.example._prj_doan.entity;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

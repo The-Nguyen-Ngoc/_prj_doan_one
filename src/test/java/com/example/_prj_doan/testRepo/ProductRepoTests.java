@@ -3,7 +3,7 @@ package com.example._prj_doan.testRepo;
 import com.example._prj_doan.entity.Brand;
 import com.example._prj_doan.entity.Category;
 import com.example._prj_doan.entity.Product;
-import com.example._prj_doan.repository.ProductRepo;
+import com.example._prj_doan.manager.repository.ProductRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
