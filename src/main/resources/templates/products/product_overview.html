@@ -127,19 +127,19 @@
     <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giá Nhập:</label>
         <div class="col-sm-10">
-            <input type="number" class="form-control" th:field="*{cost}"/>
+            <input type="number" step="0.01" class="form-control" th:field="*{cost}"/>
         </div>
     </div>
     <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giá Bán:</label>
         <div class="col-sm-10">
-            <input type="number" class="form-control" th:field="*{price}"/>
+            <input type="number" step="0.01" class="form-control" th:field="*{price}"/>
         </div>
     </div>
     <div class="form-group m-2 row">
         <label class="col-sm-4 col_form-label">Giảm giá:</label>
         <div class="col-sm-10">
-            <input type="number" class="form-control" th:field="*{discountPercent}"/>
+            <input type="number" step="0.01" class="form-control" th:field="*{discountPercent}"/>
         </div>
     </div>
 </div>

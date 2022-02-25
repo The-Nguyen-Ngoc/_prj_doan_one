@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="vi">
+<head>
+    <head th:replace="fragments::header('Manager Settings 👨‍💻')"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/richtext/richtextmin.css}"/>
+    <script type="text/javascript" th:src="@{/richtext/jqueryrichtextmin.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="fragments::menu"></div>
+    <div th:replace="fragments::titleHeaderPage('', ' Menu Settings')"></div>
+    <div class="text-center">
+       <br>
+        <div th:if="${message} != null" class="mt-4 alert alert-success text-center ">
+            [[${message}]]
+        </div>
+    </div>
+        <!-- Nav tabs -->
+        <div class="mt-1 shadow p-3 mb-5 bg-body rounded"  style="max-width: 800px; margin: 0 auto">
+            <ul class="nav nav-tabs" id="settingTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#general" role="tab">Cài Đặt Chung</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#countries" role="tab">Quốc Gia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#states" role="tab">Tỉnh Thành</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#mailServer" role="tab">Mail Server</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#mailTemplates" role="tab">Mail Template</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="general" role="tabpanel">
+                    <div th:replace="settings/general::content"></div>
+                </div>
+                <div class="tab-pane" id="countries" role="tabpanel">
+                    <div th:replace="settings/countries::content"></div>
+                </div>
+                <div class="tab-pane" id="states" role="tabpanel">
+                    <div th:replace="settings/states::content"></div>
+                </div>
+                <div class="tab-pane" id="mailServer" role="tabpanel">
+sẻver
+                </div>
+                <div class="tab-pane" id="mailTemplates" role="tabpanel">
+                  temoplate
+                </div>
+            </div>
+            <div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
+                <div role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body">
+                        <span class="font-italic text-info" id="toastMessage"></span>
+                    </div>
+        
+                </div>
+    
+            </div>
+        </div>
+</div>
+<script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/countries_setting.js}"></script>
+<script th:src="@{/js/states_setting.js}"></script>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+    $(document).ready(buttonCancelAndFileImage("[[@{/users}]]"));
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+</script>
+</body>
+<footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Manager Settings')">
+</footer>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="form-group my-4 row" th:fragment="content" th:remove="tag">
+    <div class=" my-4">
+        <button type="button" id="buttonLoadCountries" class="btn btn-outline-info justify-content-center">Cập nhật DS quốc gia</button>
+    </div>
+    <div>
+        <select class="form-control" id="dropDownCountries" size="5">
+
+        </select>
+    </div>
+
+
+<div class="">
+    <label id="labelCountryName" class="col-form-label font-weight-bold">Quốc Gia:</label>
+    <div class="col-md">
+        <input type="text" class="form-control" id="fieldCountryName" placeholder="Nhập tên quốc gia"/>
+    </div>
+    <label id="labelCountryCode" class="col-form-label font-weight-bold">Code:</label>
+    <div class="col-md">
+        <input type="text" class="form-control" id="fieldCountryCode" placeholder="Nhập code"/>
+    </div>
+    <div class="m-4">
+        <input type="button" value="Thêm" class="btn btn-outline-success mx-2" id="btnAddCountry"/>
+        <input type="button" value="Sửa" class="btn btn-outline-warning mx-2" id="btnUpdateCountry" disabled="disabled"/>
+        <input type="button" value="Xóa" class="btn btn-outline-danger mx-2" id="btnDeleteCountry" disabled="disabled"/>
+    </div>
+   
+</div>
+</div>
+<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>
