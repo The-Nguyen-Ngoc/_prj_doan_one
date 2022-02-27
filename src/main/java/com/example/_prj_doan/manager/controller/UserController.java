@@ -1,6 +1,8 @@
 package com.example._prj_doan.manager.controller;
 
 
+import com.example._prj_doan.anotation.PagingAndSortingHelper;
+import com.example._prj_doan.anotation.PagingAndSortingParam;
 import com.example._prj_doan.manager.constain.Constant;
 import com.example._prj_doan.entity.Role;
 import com.example._prj_doan.entity.User;
@@ -38,14 +40,16 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/users")
-    public String listAll(Model model) {
-       listByPage(1, model, "firstName", "asc", null);
-        return "users/users";
+    public String listAll() {
+//       listByPage(helper,1, model, "firstName", "asc", null);
+//        return "users/users";
+        return "redirect:/users/page/1?sortField=firstName&sortDir=asc&keyword=";
 
     }
 
     @GetMapping("/users/page/{pageNum}")
-    public String listByPage(@PathVariable(name ="pageNum") int pageNum, Model model,
+    public String listByPage(@PagingAndSortingParam PagingAndSortingHelper helper,
+                             @PathVariable(name ="pageNum") int pageNum, Model model,
                              @RequestParam("sortField") String sortField,
                              @RequestParam("sortDir") String sortDir,
                              @RequestParam("keyword") String keyword){

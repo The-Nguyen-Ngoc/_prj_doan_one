@@ -1,11 +1,14 @@
 package com.example._prj_doan.manager.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.PathVariableMapMethodArgumentResolver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @author TheNN
@@ -47,5 +50,10 @@ public class MvcConfig implements WebMvcConfigurer {
         String siteImagePath = siteLogoDir.toFile().getAbsolutePath();
         registry.addResourceHandler("/" + siteLogo + "/**") //hien thi anh
                 .addResourceLocations("file:/" + siteImagePath + "/");
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new PathVariableMapMethodArgumentResolver());
     }
 }

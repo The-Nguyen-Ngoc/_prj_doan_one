@@ -50,10 +50,10 @@
                     <div th:replace="settings/states::content"></div>
                 </div>
                 <div class="tab-pane" id="mailServer" role="tabpanel">
-sẻver
+                    <div th:replace="settings/mail_server::content"></div>
                 </div>
                 <div class="tab-pane" id="mailTemplates" role="tabpanel">
-                  temoplate
+                    <div th:replace="settings/mail_templates::content"></div>
                 </div>
             </div>
             <div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
@@ -75,6 +75,10 @@ sẻver
     $(document).ready(buttonCancelAndFileImage("[[@{/users}]]"));
     var csrfHeaderName = "[[${_csrf.headerName}]]";
     var csrfValue = "[[${_csrf.token}]]";
+    
+    $(document).ready(function () {
+        $('#customerVerificationContent').richText();
+    });
 </script>
 </body>
 <footer th:replace="fragments::footer('thenguyenngochn@gmail.com - Manager Settings')">

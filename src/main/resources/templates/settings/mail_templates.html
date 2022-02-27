@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content" th:remove="tag">
+    <form th:action="@{/settings/save_mail_templates}" method="post">
+        <div class="mt-1 shadow p-3 mb-5 bg-body rounded" style="max-width: 800px; margin: 0 auto">
+            <ul class="nav nav-tabs" id="mailTemplatesTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#customerVerification" role="tab">Xác thực người
+                        dùng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#orderConfirmation" role="tab">Yêu cầu thông tin</a>
+                </li>
+            </ul>
+            
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="customerVerification" role="tabpanel">
+                    <div th:replace="settings/customer_verification::content"></div>
+                </div>
+                <div class="tab-pane" id="orderConfirmation" role="tabpanel">
+                    <!--                <div th:replace="settings/countries::content"></div>-->
+                    dfsafdadf
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Lưu" class="btn btn-primary m-4 w-25">
+            </div>
+        
+        </div>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
+
+</body>
+</html>

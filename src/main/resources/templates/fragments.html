@@ -102,6 +102,13 @@
    class="page-link bg-light text-dark"
    th:href="@{'/products/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+'&categoryId='+${categoryId} + ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
 </a>
+<!--    page link customer-->
+
+<a th:fragment="page_link_customer(pageNum, label)"
+   class="page-link bg-light text-dark"
+   th:href="@{'/customers/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+ ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+</a>
+
 
 <!--menu-->
 <div th:fragment="menu" class="w-auto text-center">
@@ -177,7 +184,6 @@
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-dark border-bottom border-bottom-2 border-warning"
                            th:href="@{/customers}">Khách Hàng</a>
                         <div class="dropdown-menu border-0 shadow-lg bg-warning" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" th:href="@{/customers/new}">Tạo KH</a>
                             <a class="dropdown-item" th:href="@{/customers}">Xem KH</a>
                         </div>
                     </li>
