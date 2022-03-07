@@ -102,4 +102,18 @@ public class Product {
         if(name.length() > 70) return name.substring(0,50)+"...";
         return name;
     }
+
+    @Transient
+    public Integer getPriceMore(){
+        return (int) (price);
+    }
+
+    @Transient
+    public Integer getDiscountPrice(){
+        if(discountPercent >0) {
+            float a =  price * (100 - discountPercent) / 100;
+            return Math.round(a);
+        }
+        return(int) this.price;
+    }
 }

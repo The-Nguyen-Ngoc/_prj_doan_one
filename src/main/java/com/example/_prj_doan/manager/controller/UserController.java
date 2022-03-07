@@ -41,8 +41,6 @@ public class UserController {
 
     @GetMapping("/users")
     public String listAll() {
-//       listByPage(helper,1, model, "firstName", "asc", null);
-//        return "users/users";
         return "redirect:/users/page/1?sortField=firstName&sortDir=asc&keyword=";
 
     }

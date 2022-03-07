@@ -109,6 +109,17 @@
    th:href="@{'/customers/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+ ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
 </a>
 
+<a th:fragment="page_link_shipping(pageNum, label)"
+   class="page-link bg-light text-dark"
+   th:href="@{'/shipping_rates/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+ ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+</a>
+
+
+<a th:fragment="page_link_order(pageNum, label)"
+   class="page-link bg-light text-dark"
+   th:href="@{'/orders/page/' + ${pageNum}+ '?sortField='+ ${sortField}+ '&sortDir='+ ${sortDir}+ ${keyword!=null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]
+</a>
+
 
 <!--menu-->
 <div th:fragment="menu" class="w-auto text-center">
@@ -191,7 +202,7 @@
                 <li class="nav-item px-1 h6 "
                     sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/shipping}">Vận Chuyển</a>
+                       th:href="@{/shipping_rates}">Vận Chuyển</a>
                 </li>
                 <li class="nav-item px-1 h6 "
                     sec:authorize="hasAnyAuthority('Admin', 'Salesperson', 'Shipper')">
@@ -224,6 +235,11 @@
         </div>
     </nav>
 </div>
+<div th:fragment="format_time(dateTime)" th:remove="tag">
+    <span th:text="${#dates.format(dateTime, 'dd-MM-yyyy HH:mm:ss')}"></span>
+</div>
+
+
 </body>
 <!--footer-->
 <footer th:fragment="footer(title)">
