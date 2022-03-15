@@ -15,7 +15,7 @@
     <name>_prj_doan</name>
     <description>_prj_doan</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>1.8</java.version>
     </properties>
     <dependencyManagement>
         <dependencies>
