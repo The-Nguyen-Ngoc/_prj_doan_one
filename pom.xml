@@ -166,6 +166,10 @@
                 <configuration>
                    <excludes>
                        <exclude>**/*.java</exclude>
+                       <configuration>
+                           <source>15</source>
+                           <target>15</target>
+                       </configuration>
                    </excludes>
                 </configuration>
             </plugin>
