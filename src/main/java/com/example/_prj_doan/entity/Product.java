@@ -1,6 +1,7 @@
 package com.example._prj_doan.entity;
 
 
+import com.example._prj_doan.manager.constain.Constant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -75,7 +76,7 @@ public class Product {
     public String getMainImagePath(){
         if(id == null|| mainImage == null) return "/images/preview.png";
 
-        return "/product-images/"+this.id+"/"+this.mainImage;
+        return Constant.BASE_URL_AWS+ "product-images/"+this.id+"/"+this.mainImage;
     }
 
     public void addDetail(String detailName, String detailValue) {

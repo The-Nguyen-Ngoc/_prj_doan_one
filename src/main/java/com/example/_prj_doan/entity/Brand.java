@@ -1,5 +1,6 @@
 package com.example._prj_doan.entity;
 
+import com.example._prj_doan.manager.constain.Constant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +37,6 @@ public class Brand extends IdBasedEntity{
     public String getLogoPath() {
         if(this.id == null) return "/images/img_1.png";
 
-        return "/brand-logos/" + this.id +"/"+ this.logo;
+        return Constant.BASE_URL_AWS+ "brand-logos/" + this.id +"/"+ this.logo;
     }
 }

@@ -1,5 +1,6 @@
 package com.example._prj_doan.entity;
 
+import com.example._prj_doan.manager.constain.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -61,7 +62,7 @@ public class User {
     @Transient
     public String getPhotosImagePath(){
         if(id == null || photos == null) return "/images/avatar.jpg";
-        return "/user-photos/"+ this.id + "/"+ this.photos;
+        return Constant.BASE_URL_AWS +"user-photos/" + this.id + "/"+ this.photos;
     }
 
     public boolean hasRole(String roleName){

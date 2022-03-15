@@ -1,5 +1,6 @@
 package com.example._prj_doan.entity;
 
+import com.example._prj_doan.manager.constain.Constant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -62,7 +63,7 @@ public class Category extends IdBasedEntity{
     public String getImagePath(){
         if(this.id == null) return "/images/category.png";
 
-        return "/category-images/"+ this.id + "/"+ this.image;
+        return Constant.BASE_URL_AWS+ "category-images/"+ this.id + "/"+ this.image;
     }
     @Transient
     public Integer getId() {

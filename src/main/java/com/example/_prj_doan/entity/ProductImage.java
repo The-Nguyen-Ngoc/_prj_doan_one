@@ -1,6 +1,7 @@
 package com.example._prj_doan.entity;
 
 
+import com.example._prj_doan.manager.constain.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,6 @@ public class ProductImage {
 
     @Transient
     public String getImagePath() {
-        return "/product-images/" +product.getId()+"/extras/"+this.name;
+        return Constant.BASE_URL_AWS+  "product-images/" +product.getId()+"/extras/"+this.name;
     }
 }
