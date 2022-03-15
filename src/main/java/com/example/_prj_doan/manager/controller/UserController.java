@@ -136,10 +136,14 @@ public class UserController {
             String userPhotoDir = "user-photos/" + id;
             AmazonS3Util.removeFolder(userPhotoDir);
             redirectAttributes.addFlashAttribute("message", "Xóa thành công người dùng có ID "+ id);
+            model.addAttribute("message", "Xóa thành công người dùng có ID "+ id);
+
         } catch (UserNotFoundExeption exeption) {
             redirectAttributes.addFlashAttribute("message", "Không tìm thấy người dùng có ID " +id);
+            model.addAttribute("message", "Không tìm thấy người dùng có ID "+ id);
         }
         return "redirect:/users";
+
     }
 
     @GetMapping("/users/{id}/enabled/{enabled}")
@@ -151,7 +155,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("message", message + " thành công người dùng có " +
                     "ID "+ id);
 
-        return "redirect:/users";
+        return "redirect:/users/page/1?sortField=firstName&sortDir=asc&keyword=";
     }
 
     @GetMapping("/users/export/csv")

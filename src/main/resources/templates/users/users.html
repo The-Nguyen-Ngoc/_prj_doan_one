@@ -27,11 +27,11 @@
                 <input type="submit" value="Search" class="btn btn-primary m-2" required/>
             </form>
         </div>
-        <div th:if="${message} != null" class="mt-4 alert alert-success text-center ">
-            [[${message}]]
-        </div>
     </div>
-
+    
+    <div th:if="${message} != null" class="mt-4 alert alert-success text-center ">
+        [[${message}]]
+    </div>
     <!--    danh sách users-->
     <div class="full-details m-3 p-2 text-center shadow-lg">
         <table class="table table-bordered table-striped table-hover table-responsive-xl ">
