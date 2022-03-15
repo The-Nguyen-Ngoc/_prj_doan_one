@@ -83,6 +83,7 @@ public class CategoryService {
         return "OK";
     }
 
+    @Transactional
     public void delete(Integer id) {
         categoryRepo.deleteById(id);
     }

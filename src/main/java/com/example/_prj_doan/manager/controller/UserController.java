@@ -1,6 +1,7 @@
 package com.example._prj_doan.manager.controller;
 
 
+import com.example._prj_doan.AmazonS3Util;
 import com.example._prj_doan.anotation.PagingAndSortingHelper;
 import com.example._prj_doan.anotation.PagingAndSortingParam;
 import com.example._prj_doan.manager.constain.Constant;
@@ -95,8 +96,10 @@ public class UserController {
             User userSaved = userService.save(user);
 
             String uploadDir = "user-photos/" + userSaved.getId();
-            FileUploadUtil.cleanDir(uploadDir);
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            AmazonS3Util.removeFolder(uploadDir);
+            AmazonS3Util.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+//            FileUploadUtil.cleanDir(uploadDir);
+//            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         }
         else {
@@ -130,6 +133,8 @@ public class UserController {
                              RedirectAttributes redirectAttributes) throws UserNotFoundExeption {
         try {
             userService.delete(id);
+            String userPhotoDir = "user-photos/" + id;
+            AmazonS3Util.removeFolder(userPhotoDir);
             redirectAttributes.addFlashAttribute("message", "Xóa thành công người dùng có ID "+ id);
         } catch (UserNotFoundExeption exeption) {
             redirectAttributes.addFlashAttribute("message", "Không tìm thấy người dùng có ID " +id);

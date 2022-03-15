@@ -1,5 +1,6 @@
 package com.example._prj_doan.manager.controller;
 
+import com.example._prj_doan.AmazonS3Util;
 import com.example._prj_doan.manager.config.LoginUserDetails;
 import com.example._prj_doan.manager.constain.Constant;
 import com.example._prj_doan.entity.*;
@@ -94,23 +95,17 @@ public class ProductController {
     }
 
     private void deleteExtraImagesWeredRemoveOnForm(Product product) {
-        String exraImageNames = "product-images/" + product.getId() + "/extras/";
-        Path path = Paths.get(exraImageNames);
+        String extraImageDir = "product-images/" + product.getId() + "/extras";
+        List<String> listObjectKeys = AmazonS3Util.listFolder(extraImageDir);
 
-        try {
-            Files.list(path).forEach(file -> {
-                String fileName = file.toFile().getName();
-                LOGGER.info("Delete Extra Image: " + fileName);
-                if (!product.containsImageName(fileName)) {
-                    try {
-                        Files.delete(file);
-                    } catch (IOException e) {
-                        LOGGER.error("Could not delete extra image: " + fileName);
-                    }
-                }
-            });
-        } catch (IOException exception) {
-            LOGGER.error("Could not list directory: " + path);
+        for (String objectKey : listObjectKeys) {
+            int lastIndexOfSlash = objectKey.lastIndexOf("/");
+            String fileName = objectKey.substring(lastIndexOfSlash + 1, objectKey.length());
+
+            if (!product.containsImageName(fileName)) {
+                AmazonS3Util.deleteFile(objectKey);
+                System.out.println("Deleted extra image: " + objectKey);
+            }
         }
     }
 
@@ -149,8 +144,15 @@ public class ProductController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String uploadDir = "product-images/" + saveProduct.getId();
 
-            FileUploadUtil.cleanDir(uploadDir);
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            List<String> listObjectKeys = AmazonS3Util.listFolder(uploadDir+"/");
+            for(String objectKey : listObjectKeys) {
+                if(!objectKey.contains("/extras/")) {
+                    AmazonS3Util.deleteFile(objectKey);
+                }
+            }
+            AmazonS3Util.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+//            FileUploadUtil.cleanDir(uploadDir);
+//            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
 
         if (extraImages.length > 0) {
@@ -159,7 +161,7 @@ public class ProductController {
             for (MultipartFile extraImage : extraImages) {
                 if (!extraImage.isEmpty()) {
                     String fileName = StringUtils.cleanPath(extraImage.getOriginalFilename());
-                    FileUploadUtil.saveFile(uploadDir, fileName, extraImage);
+                    AmazonS3Util.uploadFile(uploadDir, fileName, extraImage.getInputStream());
 
                 }
             }

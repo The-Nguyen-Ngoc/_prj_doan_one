@@ -13,9 +13,9 @@ import java.util.*;
 @AllArgsConstructor
 public class Brand extends IdBasedEntity{
 
-    @Column(nullable = false,length=45,unique = true)
+    @Column(nullable = false,length=45)
     private String name;
-    @Column(nullable = false,length=128)
+    @Column(length=128)
     private String logo;
 
     @ManyToMany

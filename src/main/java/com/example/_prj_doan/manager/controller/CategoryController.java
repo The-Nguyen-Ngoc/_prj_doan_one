@@ -1,6 +1,7 @@
 package com.example._prj_doan.manager.controller;
 
 
+import com.example._prj_doan.AmazonS3Util;
 import com.example._prj_doan.entity.Category;
 import com.example._prj_doan.manager.service.CategoryService;
 import com.example._prj_doan.manager.utils.CategoryCsvExporter;
@@ -55,8 +56,10 @@ public class CategoryController {
             Category savedCategory = categoryService.save(category);
             String uploadDir = "category-images/" + savedCategory.getId();
 
-            FileUploadUtil.cleanDir(uploadDir);
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+            AmazonS3Util.removeFolder(uploadDir);
+            AmazonS3Util.uploadFile(uploadDir, fileName, file.getInputStream());
+//            FileUploadUtil.cleanDir(uploadDir);
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
         }else {
             if(category.getImage().isEmpty()) category.setImage(null);
             categoryService.save(category);
@@ -88,6 +91,8 @@ public class CategoryController {
                                  RedirectAttributes redirectAttributes) {
         try {
             categoryService.delete(id);
+            String uploadDir = "category-images/" + id;
+            AmazonS3Util.removeFolder(uploadDir);
             redirectAttributes.addFlashAttribute("message", "Xóa Danh Mục Thành Công!");
             return "redirect:/categories";
         } catch (NotFoundException e) {

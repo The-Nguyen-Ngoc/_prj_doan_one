@@ -1,5 +1,6 @@
 package com.example._prj_doan.manager.controller;
 
+import com.example._prj_doan.AmazonS3Util;
 import com.example._prj_doan.entity.Currency;
 import com.example._prj_doan.entity.GeneralSettingBag;
 import com.example._prj_doan.entity.Setting;
@@ -62,9 +63,13 @@ public class SettingController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String value = "site-logo/" + fileName;
             settingBag.updateSiteLogo(value);
-            String uploadDir = "site-logo/";
-            FileUploadUtil.cleanDir(uploadDir);
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            String uploadDir = "site-logo";
+
+            AmazonS3Util.removeFolder(uploadDir);
+            AmazonS3Util.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+
+//            FileUploadUtil.cleanDir(uploadDir);
+//            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
     }
 

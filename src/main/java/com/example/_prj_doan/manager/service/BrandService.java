@@ -5,6 +5,7 @@ import com.example._prj_doan.manager.repository.BrandRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -29,8 +30,11 @@ public class BrandService {
         return brandRepo.save(brand);
     }
 
+    @Modifying
+    @Transactional
     public void delete(Integer id) {
         Brand brand = brandRepo.findById(id).get();
+        if(brand == null) throw new NotFoundException("Không tìm thấy nhà sản xuất");
         brandRepo.delete(brand);
     }
 

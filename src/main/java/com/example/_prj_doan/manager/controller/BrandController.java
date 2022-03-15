@@ -1,5 +1,6 @@
 package com.example._prj_doan.manager.controller;
 
+import com.example._prj_doan.AmazonS3Util;
 import com.example._prj_doan.entity.Brand;
 import com.example._prj_doan.entity.Category;
 import com.example._prj_doan.manager.service.BrandService;
@@ -57,8 +58,11 @@ public class BrandController {
         Brand savedBrand = brandService.save(brand);
         String uploadDir = "brand-logos/" + savedBrand.getId();
 
-        FileUploadUtil.cleanDir(uploadDir);
-        FileUploadUtil.saveFile(uploadDir, fileName, file);
+        AmazonS3Util.removeFolder(uploadDir);
+        AmazonS3Util.uploadFile(uploadDir, fileName, file.getInputStream());
+//
+//        FileUploadUtil.cleanDir(uploadDir);
+//        FileUploadUtil.saveFile(uploadDir, fileName, file);
 
         redirectAttributes.addFlashAttribute("message", "Lưu nhãn hiệu thành công!");
         return "redirect:/brands";
@@ -67,6 +71,8 @@ public class BrandController {
     @GetMapping("/brands/delete/{id}")
     public String deleteBrand(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
         brandService.delete(id);
+        String uploadDir = "brand-logos/" + id;
+        AmazonS3Util.removeFolder(uploadDir);
         redirectAttributes.addFlashAttribute("message", "Xóa nhãn hiệu thành công!");
         return "redirect:/brands";
     }
