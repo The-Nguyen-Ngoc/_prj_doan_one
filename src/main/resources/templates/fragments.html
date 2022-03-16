@@ -209,16 +209,7 @@
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/orders}">Đặt Hàng</a>
                 </li>
-                <li class="nav-item px-1 h6 "
-                    sec:authorize="hasAnyAuthority('Admin', 'Assistant')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/orders}">Review</a>
-                </li>
-                <li class="nav-item px-1 h6 "
-                    sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/report}">Báo Cáo</a>
-                </li>
+            
                 <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/articles}">Bài Viết</a>
