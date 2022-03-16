@@ -209,15 +209,15 @@
                     <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
                        th:href="@{/orders}">Đặt Hàng</a>
                 </li>
-            
-                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/articles}">Bài Viết</a>
-                </li>
-                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"
-                       th:href="@{/menus}">Menus</a>
-                </li>
+<!--            -->
+<!--                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin', 'Editor')">-->
+<!--                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"-->
+<!--                       th:href="@{/articles}">Bài Viết</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item px-1 h6 " sec:authorize="hasAnyAuthority('Admin', 'Editor')">-->
+<!--                    <a class="nav-link text-dark border-bottom border-bottom-2 border-warning"-->
+<!--                       th:href="@{/menus}">Menus</a>-->
+<!--                </li>-->
                 <li class="nav-item px-1 h6 " sec:authorize="hasAuthority('Admin')">
                     <a class="nav-link text-dark border-bottom border-bottom-4 border-warning"
                        th:href="@{/settings}">🔧</a>
